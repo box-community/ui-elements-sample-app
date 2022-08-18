@@ -29,11 +29,11 @@ def login():
     if 'login' in request.form:
 
         # read form data
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
 
         # Locate user
-        user = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(email=email).first()
 
         # Check the password
         if user and verify_pass(password, user.password):
@@ -43,7 +43,7 @@ def login():
 
         # Something (user or pass) is not ok
         return render_template('accounts/login.html',
-                               msg='Wrong user or password',
+                               msg='Wrong email or password',
                                form=login_form)
 
     if not current_user.is_authenticated:
@@ -64,7 +64,7 @@ def register():
         user = User.query.filter_by(username=username).first()
         if user:
             return render_template('accounts/register.html',
-                                   msg='Username already registered',
+                                   msg='User name already registered',
                                    success=False,
                                    form=create_account_form)
 

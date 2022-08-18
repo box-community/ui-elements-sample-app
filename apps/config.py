@@ -65,9 +65,16 @@ class ProductionConfig(Config):
 class DebugConfig(Config):
     DEBUG = True
 
+class TestConfig(Config):
+    DEBUG = True    
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db.test.sqlite3')
+    WTF_CSRF_ENABLED = False
+
 
 # Load all possible configurations
 config_dict = {
     'Production': ProductionConfig,
-    'Debug'     : DebugConfig
+    'Debug'     : DebugConfig,
+    'Testing'   : TestConfig
 }

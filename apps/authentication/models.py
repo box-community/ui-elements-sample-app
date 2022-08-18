@@ -35,7 +35,7 @@ class User(db.Model, UserMixin):
     __tablename__ = 'User'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=False, nullable=False)
+    username = db.Column(db.String(100), unique=False, nullable=False)
     email = db.Column(db.String(64), unique=True , nullable=False)
     password = db.Column(db.LargeBinary)
     avatar_url = db.Column(db.String(512))
@@ -76,8 +76,8 @@ def user_loader(id):
 
 @login_manager.request_loader
 def request_loader(request):
-    username = request.form.get('email')
-    user = User.query.filter_by(username=username).first()
+    email = request.form.get('email')
+    user = User.query.filter_by(email=email).first()
     return user if user else None
 
 # @login_manager.request_loader
