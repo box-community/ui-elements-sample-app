@@ -5,14 +5,14 @@ from apps.authentication.cypto import decrypt_token, encrypt_token
 from apps.config import Config
 from apps import db,login_manager
 from boxsdk import OAuth2, Client
-from apps.authentication.models import Users
+from apps.authentication.models import User
 
 
 def get_authorization_url():
     """
     Get the authorization url for the user
     """
-    user = Users.query.filter_by(id=current_user.id).first()
+    user = User.query.filter_by(id=current_user.id).first()
 
     #user must be logged in
     if user == None:
@@ -45,7 +45,7 @@ def access_token_get()->str:
     Get the access token for the current user
     """
     
-    user = Users.query.filter_by(id=current_user.id).first()
+    user = User.query.filter_by(id=current_user.id).first()
     if user == None or user.access_token == None or user.refresh_token == None:
         return None
 
@@ -63,7 +63,7 @@ def access_token_get()->str:
     try:
         
         # client.user().get() # this forces a refresh of the access token if it is 
-        user = Users.query.filter_by(id=current_user.id).first()
+        user = User.query.filter_by(id=current_user.id).first()
         return decrypt_token(user.access_token)
     except:
         # if there is an error, we need to re authorize the app
@@ -92,7 +92,7 @@ def store_tokens(access_token:str, refresh_token:str)->bool:
     Store the access and refresh tokens for the current user
     """
 
-    user = Users.query.filter_by(id=current_user.id).first()
+    user = User.query.filter_by(id=current_user.id).first()
 
     if user:
         user.access_token = encrypt_token(access_token)
@@ -107,7 +107,7 @@ def box_client() -> Client:
     Get the box client for the current user
     """
 
-    user = Users.query.filter_by(id=current_user.id).first()
+    user = User.query.filter_by(id=current_user.id).first()
     access_token = decrypt_token(user.access_token)
     refresh_token = decrypt_token(user.refresh_token)
 

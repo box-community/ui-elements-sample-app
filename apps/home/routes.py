@@ -7,7 +7,7 @@ Copyright (c) 2019 - present AppSeed.us
 import json
 
 from apps.authentication.box_jwt import jwt_check_client, jwt_downscoped_access_token_get
-from apps.authentication.models import Users
+from apps.authentication.models import User
 from apps.home import blueprint
 from flask import request
 from flask_login import current_user, login_required

@@ -8,7 +8,7 @@ from apps.config import Config
 from flask_login import current_user
 from apps import db
 
-from apps.authentication.models import Jwt, Users
+from apps.authentication.models import Jwt, User
 
 def get_demo_folder_id(client:Client)->str:
 	jwt_rec = Jwt.query.filter_by(box_app_id = Config.JWT_PUBLIC_KEY_ID).first()

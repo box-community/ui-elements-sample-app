@@ -2,7 +2,7 @@ from boxsdk import BoxAPIException
 from flask import flash, render_template, session
 from flask_login import current_user
 from apps.authentication.box_jwt import jwt_client
-from apps.authentication.models import Users
+from apps.authentication.models import User
 from apps.config import Config
 
 
