@@ -6,6 +6,7 @@ Copyright (c) 2019 - present AppSeed.us
 import os
 import hashlib
 import binascii
+from flask import current_app
 
 # Inspiration -> https://www.vitoshacademy.com/hashing-passwords-in-python/
 
@@ -33,4 +34,8 @@ def verify_pass(provided_password, stored_password):
     pwdhash = binascii.hexlify(pwdhash).decode('ascii')
     return pwdhash == stored_password
 
-    
+def is_testing()->bool:
+    WTF_CSRF_ENABLED = current_app.config.get('WTF_CSRF_ENABLED')
+    if WTF_CSRF_ENABLED is None:
+        return False
+    return not WTF_CSRF_ENABLED

@@ -3,6 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
+from crypt import methods
 from apps.config import Config
 from flask import render_template, redirect, request, url_for,g
 from flask_login import (
@@ -15,7 +16,9 @@ from apps import db, login_manager
 from apps.authentication import blueprint
 from apps.authentication.forms import LoginForm, CreateAccountForm
 from apps.authentication.models import User
-from apps.authentication.util import verify_pass
+from apps.authentication.util import verify_pass, is_testing
+
+
 
 @blueprint.route('/')
 def route_default():
@@ -25,26 +28,30 @@ def route_default():
 
 @blueprint.route('/login', methods=['GET', 'POST'])
 def login():
+
     login_form = LoginForm(request.form)
-    if 'login' in request.form:
 
-        # read form data
-        email = request.form['email']
-        password = request.form['password']
+    if request.method == 'POST':
+        
+        if ('login' in request.form or is_testing()):
 
-        # Locate user
-        user = User.query.filter_by(email=email).first()
+            # read form data
+            email = request.form['email']
+            password = request.form['password']
 
-        # Check the password
-        if user and verify_pass(password, user.password):
+            # Locate user
+            user = User.query.filter_by(email=email).first()
 
-            login_user(user)
-            return redirect(url_for('authentication_blueprint.route_default'))
+            # Check the password
+            if user and verify_pass(password, user.password):
 
-        # Something (user or pass) is not ok
-        return render_template('accounts/login.html',
-                               msg='Wrong email or password',
-                               form=login_form)
+                login_user(user)
+                return redirect(url_for('authentication_blueprint.route_default'))
+
+            # Something (user or pass) is not ok
+            return render_template('accounts/login.html',
+                                msg='Wrong email or password',
+                                form=login_form)
 
     if not current_user.is_authenticated:
         return render_template('accounts/login.html',

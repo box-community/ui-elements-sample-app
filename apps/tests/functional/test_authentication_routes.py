@@ -57,8 +57,9 @@ def test_valid_login_logout(test_client, init_database):
     """
     response = test_client.get('/logout', follow_redirects=True)
     assert response.status_code == 200
-    assert b'Goodbye!' in response.data
-    assert b'Flask User Management' in response.data
-    assert b'Logout' not in response.data
+    assert response.status_code == 200
     assert b'Login' in response.data
-    assert b'Register' in response.data    
+    assert b'have an account' in response.data
+    assert b'Logout' not in response.data
+  
+    assert b'Sign UP' in response.data     

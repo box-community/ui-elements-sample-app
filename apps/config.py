@@ -65,11 +65,12 @@ class ProductionConfig(Config):
 class DebugConfig(Config):
     DEBUG = True
 
+
 class TestConfig(Config):
     DEBUG = True    
     basedir = os.path.abspath(os.path.dirname(__file__))
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db.test.sqlite3')
-    WTF_CSRF_ENABLED = False
+    WTF_CSRF_ENABLED = False # this will remove the csrf_token from the forms for testing purposes
 
 
 # Load all possible configurations
