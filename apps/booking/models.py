@@ -22,6 +22,8 @@ class Dive_Site(db.Model):
     def __repr__(self):
         return str(self.name)
 
+
+
 class Diver(db.Model):
     __tablename__ = 'Diver'
 

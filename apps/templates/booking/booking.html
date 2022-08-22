@@ -1,0 +1,88 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Book a dive {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <!-- <h5 class="m-b-10">Booking a Dive</h5> -->
+                                </div>
+                                <!-- <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">Booking Page</a></li>
+                                    </ul> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Book a dive</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- <h5>Form controls</h5> -->
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <form>
+                                                    {{ form.hidden_tag() }}
+                                                    <div class="form-group">
+                                                        {{ form.date.label}}
+                                                        {{ form.date(placeholder="Date", class="form-control") }}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        {{ form.site.label}}
+                                                        {{ form.site(placeholder="Site", class="form-control") }}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        {{ form.name.label(class="form-label") }}
+                                                        {{ form.name(placeholder="aa", class="form-control") }}
+                                                    </div>
+                                                    <div class="form-group">
+
+                                                        {{ form.email.label }}
+                                                        {{ form.email(placeholder="bb", class="form-control") }}
+                    
+                    
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                            <button type="submit" name="next" class="btn btn-primary shadow-2 mb-4">Next</button>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}
