@@ -40,7 +40,7 @@ def test_valid_login_logout(test_client, init_database):
     THEN check the response is valid
     """
     response = test_client.post('/login',
-                                data=dict(email='sjohn@abc.local', password='s3cr3t'),
+                                data=dict(email='sjohn@example.com', password='s3cr3t'),
                                 follow_redirects=True)
     assert response.status_code == 200
     # print(f"RESPONSE: {response.data}")

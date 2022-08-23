@@ -39,7 +39,7 @@ def test_new_booking(init_db):
     THEN check the if fields are defined correctly
     """
     
-    current_date = datetime.now()
+    current_date = datetime.now().date()
     booking = Booking(date = current_date, dive_site_id = 1, created_by = 1)
     db.session.add(booking)
     db.session.commit()

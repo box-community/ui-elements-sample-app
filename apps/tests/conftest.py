@@ -1,13 +1,28 @@
 import pytest
 from apps.authentication.models import User
 from apps import create_app, db
-from apps.booking.models import Dive_Site
+from apps.booking.models import Dive_Site, Diver
 from apps.config import config_dict
 
 @pytest.fixture(scope='module')
 def new_user():
     user = User(username='test',email = 'test@abc.local',password = 'test')
     return user
+
+@pytest.fixture(scope='module')
+def new_diver_john():
+    diver = Diver(name='John Smith',email = 'sjohn@example.com')
+    return diver
+
+@pytest.fixture(scope='module')
+def new_diver_jane():
+    diver = Diver(name='Jane Smith',email = 'sjane@example.com')
+    return diver    
+
+@pytest.fixture(scope='module')
+def db_diver_john():
+    diver = Diver.query.filter_by(email='sjohn@example.com').first()
+    return diver
 
 
 @pytest.fixture(scope='module')
@@ -32,8 +47,8 @@ def init_database(test_client):
     db.create_all()
 
     # Insert user data
-    user1 = User(username = 'John Smith', email='sjohn@abc.local', password='s3cr3t')
-    user2 = User(username = 'Jane Smith', email='sjane@abc.local', password='s3cr3t')
+    user1 = User(username = 'John Smith', email='sjohn@example.com', password='s3cr3t')
+    user2 = User(username = 'Jane Smith', email='sjane@example.com', password='s3cr3t')
     db.session.add(user1)
     db.session.add(user2)
 

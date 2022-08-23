@@ -44,16 +44,16 @@ class Diver(db.Model):
                 setattr(self, property, value) 
 
     def __repr__(self):
-        return str(self.name)
+        return "<TableName(id='%s')>" % self.id
 
 class Booking(db.Model):
     __tablename__ = 'Booking'
 
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime, nullable=False)
+    date = db.Column(db.Date, nullable=False)
     dive_site_id = db.Column(db.Integer, db.ForeignKey('Dive_Site.id'), nullable=False)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
-    created_by = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+    created_by = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=True)
     # box_folder_id = db.Column(db.String(500), unique=True, nullable=True)
 
 
@@ -71,7 +71,7 @@ class Booking(db.Model):
 
 
     def __repr__(self):
-        return str(self.date),str(self.dive_site_id)
+        return "<TableName(id='%s')>" % self.id
 
 class Booking_Diver(db.Model):
     __tablename__ = 'Booking_Diver'
@@ -94,4 +94,4 @@ class Booking_Diver(db.Model):
                 setattr(self, property, value) 
 
     def __repr__(self):
-        return str(self.booking_id),str(self.diver_id)
+        return "<TableName(id='%s')>" % self.id

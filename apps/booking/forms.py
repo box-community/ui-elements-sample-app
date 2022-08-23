@@ -10,7 +10,7 @@ class BookingForm(FlaskForm):
                      id='date_booking',
                      )
 
-    site = SelectField(name='Site',
+    site = SelectField(name='site',
                        label='Dive site',
                        id='site_booking',
                        validators=[DataRequired()])

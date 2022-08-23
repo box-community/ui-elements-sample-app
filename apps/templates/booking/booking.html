@@ -32,7 +32,7 @@
                 <div class="main-body">
                     <div class="page-wrapper">
                         <!-- [ Main Content ] start -->
-                        
+
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="card">
@@ -40,49 +40,67 @@
                                         <h5>Book a dive</h5>
                                     </div>
                                     <div class="card-body">
-                                        <!-- <h5>Form controls</h5> -->
+                                        <div class="flash-messages">
+                                            {% for category, message in get_flashed_messages(with_categories=true) %}
+                                            <div class="alert {{ category }}">{{ message }}
+                                            </div>
+                                            {% endfor %}
+                                        </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <form>
+                                                <form method="post">
                                                     {{ form.hidden_tag() }}
                                                     <div class="form-group">
                                                         {{ form.date.label}}
                                                         {{ form.date(placeholder="Date", class="form-control") }}
+                                                        {% for error in form.date.errors %}
+                                                        <small class="form-text text-muted">[{{ error }}]</span>
+                                                        {% endfor %}
                                                     </div>
                                                     <div class="form-group">
                                                         {{ form.site.label}}
                                                         {{ form.site(placeholder="Site", class="form-control") }}
+                                                        {% for error in form.site.errors %}
+                                                        <small class="form-text text-muted">[{{ error }}]</span>
+                                                        {% endfor %}
                                                     </div>
                                                     <div class="form-group">
                                                         {{ form.name.label(class="form-label") }}
-                                                        {{ form.name(placeholder="aa", class="form-control") }}
+                                                        {{ form.name(class="form-control") }}
+                                                        {% for error in form.name.errors %}
+                                                        <small class="form-text text-muted">[{{ error }}]</span>
+                                                        {% endfor %}
                                                     </div>
                                                     <div class="form-group">
 
                                                         {{ form.email.label }}
-                                                        {{ form.email(placeholder="bb", class="form-control") }}
-                    
-                    
+                                                        {{ form.email(class="form-control") }}
+                                                        {% for error in form.email.errors %}
+                                                        <small class="form-text text-muted">[{{ error }}]</span>
+                                                        {% endfor %}
+
                                                     </div>
+                                                    <button type="submit" name="next"
+                                                        class="btn btn-primary shadow-2 mb-4">Next</button>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
-                                </div>    
+                                </div>
                             </div>
-                            <button type="submit" name="next" class="btn btn-primary shadow-2 mb-4">Next</button>
-                        <!-- [ Main Content ] end -->
+
+                            <!-- [ Main Content ] end -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- [ Main Content ] end -->
+    <!-- [ Main Content ] end -->
 
-{% endblock content %}
+    {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
-{% endblock javascripts %}
+    <!-- Specific Page JS goes HERE  -->
+    {% block javascripts %}
+    {% endblock javascripts %}
