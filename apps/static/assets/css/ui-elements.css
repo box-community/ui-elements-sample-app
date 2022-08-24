@@ -40,6 +40,32 @@
     margin:10px;
 }
 
+.icon-chevron-down:before { content: none; }
+
+.icon-chevron-left:before { content: none; }
+
+.icon-chevron-right:before { content: none; }
+
+.icon-chevron-up:before { content: none; }
+
+/*
+.icon-chevron-down:before { content: "\e842"; }
+
+.icon-chevron-left:before { content: "\e843"; }
+
+.icon-chevron-right:before { content: "\e844"; }
+
+.icon-chevron-up:before { content: "\e845"; }
+
+.icon-chevrons-down:before { content: "\e846"; }
+
+.icon-chevrons-right:before { content: "\e847"; }
+
+.icon-chevrons-up:before { content: "\e848"; }
+
+.icon-chevrons-left:before { content: "\e849"; } 
+*/
+
 
 /* .pcoded-wrapper{
     height: calc(100vh - 78px);

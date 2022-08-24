@@ -25,4 +25,4 @@ def test_booking_upload(test_client,init_database,new_diver_john ,new_diver_jane
     )
     assert response.status_code == 200
     assert b"Upload Documents" in response.data
-    assert False # to be continued
+    assert b"Upload Certification" in response.data
