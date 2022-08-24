@@ -6,6 +6,7 @@ class Dive_Site(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(500), unique=True, nullable=False)
+    folder_id = db.Column(db.String(500), unique=True, nullable=True)
 
     def __init__(self, **kwargs):
 
@@ -54,7 +55,7 @@ class Booking(db.Model):
     dive_site_id = db.Column(db.Integer, db.ForeignKey('Dive_Site.id'), nullable=False)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
     created_by = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=True)
-    # box_folder_id = db.Column(db.String(500), unique=True, nullable=True)
+    folder_id = db.Column(db.String(50), unique=True, nullable=True)
 
 
     def __init__(self, **kwargs):
@@ -79,6 +80,7 @@ class Booking_Diver(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     booking_id = db.Column(db.Integer, db.ForeignKey('Booking.id'), nullable=False)
     diver_id = db.Column(db.Integer, db.ForeignKey('Diver.id'), nullable=False)
+    folder_id = db.Column(db.String(50), unique=True, nullable=True)
     
 
     def __init__(self, **kwargs):

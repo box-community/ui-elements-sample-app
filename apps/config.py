@@ -17,10 +17,8 @@ class Config(object):
     FERNET_KEY = os.getenv('FERNET_KEY')
 
     # UI Elements Demo
-    CLIENT_ID = os.getenv('CLIENT_ID', '')
-    CLIENT_SECRET = os.getenv('CLIENT_SECRET', '')
     REDIRECT_URI = os.getenv('REDIRECT_URI', '')
-    DEMO_FOLDER_NAME = os.getenv('DEMO_FOLDER_NAME', 'UI Elements Demo')
+    DEMO_FOLDER_NAME = os.getenv('DEMO_FOLDER_NAME', 'Bookings')
 
     # This will create a file in <app> FOLDER
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db.sqlite3')

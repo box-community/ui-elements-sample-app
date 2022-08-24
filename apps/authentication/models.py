@@ -14,7 +14,7 @@ class Jwt(db.Model):
     __tablename__ = 'jwt'
 
     box_app_id = db.Column(db.String(128), primary_key=True)
-    access_token = db.Column(db.String(1024), nullable=False)
+    access_token = db.Column(db.String(2048), nullable=False)
     expires_on = db.Column(db.DateTime, nullable=False)
     app_user_id = db.Column(db.String(64),unique=True)
     box_demo_folder_id = db.Column(db.String(64),unique=False)

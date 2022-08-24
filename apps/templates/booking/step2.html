@@ -3,7 +3,10 @@
 {% block title %} Book a dive {% endblock %}
 
 <!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/15.0.0/en-US/uploader.css" />
+<link rel="stylesheet" href="{{ config.ASSETS_ROOT }}/css/ui-elements.css">
+{% endblock stylesheets %}
 
 {% block content %}
 
@@ -18,7 +21,7 @@
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <div class="page-header-title">
-                                    <!-- <h5 class="m-b-10">Booking a Dive</h5> -->
+                                    <h5 class="m-b-10">Book a Dive - Upload Documents</h5>
                                 </div>
                                 <!-- <ul class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
@@ -35,32 +38,49 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5>Book a dive - Upload Documents</h5>
+                                <div class="row">
+                                    <div class="flash-messages">
+                                        {% for category, message in get_flashed_messages(with_categories=true)%}
+                                        <div class="alert {{ category }}">{{ message }}
+                                        </div>
+                                        {% endfor %}
                                     </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="flash-messages">
-                                                {% for category, message in get_flashed_messages(with_categories=true)%}
-                                                <div class="alert {{ category }}">{{ message }}
-                                                </div>
-                                                {% endfor %}
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5>Booking Details</h5>
                                             </div>
-                                        </div>
-
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-md-6">
-
-                                            </div>
-                                            <div class="col-md-6">
+                                            <div class="card-body">
 
                                             </div>
                                         </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5>Upload Dive Certification Card</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="uie-upload-cert"></div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5>Upload Dive Insurance Card</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="uie-upload-insurance"></div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
+
+
 
                             <!-- [ Main Content ] end -->
                         </div>
@@ -75,4 +95,58 @@
 
     <!-- Specific Page JS goes HERE  -->
     {% block javascripts %}
+    <script src="https://cdn01.boxcdn.net/platform/elements/15.0.0/en-US/uploader.js"></script>
+
+    <script>
+        var folder_id = '{{ folder_id }}';
+        var accessToken = '{{ token }}';
+        var options = JSON.parse('{{ options | tojson | safe }}');
+
+        console.log('options:', options);
+
+        var contentUploader = new Box.ContentUploader();
+        console.log('Content Uploader:', contentUploader);
+
+        contentUploader.addListener('close', uploaderClose);
+        contentUploader.addListener('complete', uploaderComplete);
+        contentUploader.addListener('upload', uploaderUpload);
+        contentUploader.addListener('error', uploaderError);
+
+        function uploaderClose(e) {
+            console.log('close:', e);
+            sendEventToServer('close', e);
+        }
+
+        function uploaderComplete(e) {
+            console.log('complete:', e);
+            sendEventToServer('complete', e);
+        }
+
+        function uploaderUpload(e) {
+            console.log('upload:', e);
+            sendEventToServer('upload', e);
+        }
+
+        function uploaderError(e) {
+            console.log('error:', e);
+            sendEventToServer('error', e);
+        }
+
+        function sendEventToServer(eventType, e) {
+
+            var localData = {
+                eventType: eventType,
+                e: e
+            };
+
+            $.ajax({
+                url: "{{ url_for('home_blueprint.event') }}",
+                type: 'POST',
+                data: JSON.stringify(localData),
+                contentType: 'application/json;charset=UTF-8',
+            });
+        };
+
+        contentUploader.show(folder_id, accessToken, options);
+    </script>
     {% endblock javascripts %}

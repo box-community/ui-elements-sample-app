@@ -56,21 +56,21 @@
                                                         {{ form.date(placeholder="Date", class="form-control") }}
                                                         {% for error in form.date.errors %}
                                                         <small class="form-text text-muted">[{{ error }}]</span>
-                                                        {% endfor %}
+                                                            {% endfor %}
                                                     </div>
                                                     <div class="form-group">
                                                         {{ form.site.label}}
                                                         {{ form.site(placeholder="Site", class="form-control") }}
                                                         {% for error in form.site.errors %}
                                                         <small class="form-text text-muted">[{{ error }}]</span>
-                                                        {% endfor %}
+                                                            {% endfor %}
                                                     </div>
                                                     <div class="form-group">
                                                         {{ form.name.label(class="form-label") }}
                                                         {{ form.name(class="form-control") }}
                                                         {% for error in form.name.errors %}
                                                         <small class="form-text text-muted">[{{ error }}]</span>
-                                                        {% endfor %}
+                                                            {% endfor %}
                                                     </div>
                                                     <div class="form-group">
 
@@ -78,7 +78,7 @@
                                                         {{ form.email(class="form-control") }}
                                                         {% for error in form.email.errors %}
                                                         <small class="form-text text-muted">[{{ error }}]</span>
-                                                        {% endfor %}
+                                                            {% endfor %}
 
                                                     </div>
                                                     <button type="submit" name="next"
@@ -103,4 +103,5 @@
 
     <!-- Specific Page JS goes HERE  -->
     {% block javascripts %}
+
     {% endblock javascripts %}

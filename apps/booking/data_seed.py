@@ -18,4 +18,6 @@ def data_seed():
         db.session.add(dive_site2)
         db.session.commit()
 
+
+
     
