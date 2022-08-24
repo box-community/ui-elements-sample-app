@@ -10,13 +10,25 @@ from apps.booking.models import Booking, Booking_Diver, Diver, Dive_Site
 from apps.authentication.models import Jwt
 from apps.authentication.box_jwt import jwt_check_client, jwt_client
 
-def demo_folder_get(client:Client)->str:
-	jwt_rec = Jwt.query.filter_by(box_app_id = Config.JWT_PUBLIC_KEY_ID).first()
 
-	if jwt_rec.box_demo_folder_id == None or jwt_rec.box_demo_folder_id == '0':
-		return demo_folder_create(client)
+def folder_non_root_exists(folder_id:str = '0')->bool:
+	"""
+	checks if the folder exists as a subfolder of the root folder
+	"""
+	if folder_id is None or folder_id == '0':
+		return False
 
-	return jwt_rec.box_demo_folder_id
+	client = jwt_check_client()
+
+	try:
+		client.folder(folder_id).get()
+
+	except BoxAPIException as error:
+		if error.status == 404:
+			return False
+		raise error
+	
+	return True
 
 def demo_folder_create(client:Client)->str:
 
@@ -30,6 +42,18 @@ def demo_folder_create(client:Client)->str:
 	jwt_rec.box_demo_folder_id = demo_folder_id
 	db.session.commit()
 	return demo_folder_id
+
+def demo_folder_get(client:Client)->str:
+	jwt_rec = Jwt.query.filter_by(box_app_id = Config.JWT_PUBLIC_KEY_ID).first()
+
+	if folder_non_root_exists(jwt_rec.box_demo_folder_id):
+		return jwt_rec.box_demo_folder_id
+	
+	return demo_folder_create(client)
+
+
+
+
 
 
 
@@ -63,10 +87,11 @@ def site_folder_get(site_id:int)->str:
 	"""
 	folder_id = Dive_Site.query.filter_by(id=site_id).first().folder_id
 	
-	if folder_id == None or folder_id == '0':
-		return site_folder_create(site_id)
+	if folder_non_root_exists(folder_id):
+		return folder_id
+	
+	return site_folder_create(site_id)
 
-	return folder_id
 
 
 
@@ -102,7 +127,7 @@ def booking_folder_get(booking_id:int)->str:
 	"""
 	folder_id = Booking.query.filter_by(id=booking_id).first().folder_id
 
-	if folder_id is not None and folder_id != '0':
+	if folder_non_root_exists(folder_id):
 		return folder_id
 
 	folder_id = booking_folder_create(booking_id)
@@ -147,7 +172,7 @@ def booking_diver_folder_get(booking_diver_id:int)->str:
 	if booking_diver is None:
 		raise Exception('booking diver not found')
 
-	if booking_diver.folder_id is not None and booking_diver.folder_id != '0':
+	if folder_non_root_exists(booking_diver.folder_id):
 		return booking_diver.folder_id
 
 	booking_diver_folder_id = booking_diver_folder_create(booking_diver_id)

@@ -27,21 +27,22 @@ def test_booking_folder_get(test_client,init_database,new_diver_john ,new_diver_
 
     assert booking_diver_folder_id is not None
 
-    assert False
+
 
     # TODO: check what happens if the folder is accidentally deleted
 
     # delete the folder
     client = jwt_check_client()
 
-    # client.folder(booking_diver_folder_id).delete()
+    client.folder(booking_diver_folder_id).delete()
 
     booking_diver_folder_id = booking_diver_folder_get(booking_diver.id)
 
     try:
-        folder = client.folder(booking_diver_folder_id).get()
+        folder = client.folder(booking_diver_folder_id+'1').get()
 
     except BoxAPIException as e:
+        assert e.status == 404
         assert False
     
     assert folder is not None
