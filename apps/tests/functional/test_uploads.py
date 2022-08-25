@@ -36,10 +36,11 @@ def test_booking_folder_get(test_client,init_database,new_diver_john ,new_diver_
 
     client.folder(booking_diver_folder_id).delete()
 
+    #get the folder again
     booking_diver_folder_id = booking_diver_folder_get(booking_diver.id)
 
     try:
-        folder = client.folder(booking_diver_folder_id+'1').get()
+        folder = client.folder(booking_diver_folder_id).get()
 
     except BoxAPIException as e:
         assert e.status == 404

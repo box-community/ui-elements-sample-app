@@ -14,7 +14,7 @@ class Config(object):
     # Set up the App SECRET_KEY
     # SECRET_KEY = config('SECRET_KEY'  , default='S#perS3crEt_007')
     SECRET_KEY = os.getenv('SECRET_KEY', 'S#perS3crEt_007')
-    FERNET_KEY = os.getenv('FERNET_KEY')
+    FERNET_KEY = os.getenv('FERNET_KEY','SFtrRFVSUgbyv6iSPgT4JWt9AfmNMKU8TtYcKxpSvI8=')
 
     # UI Elements Demo
     REDIRECT_URI = os.getenv('REDIRECT_URI', '')
