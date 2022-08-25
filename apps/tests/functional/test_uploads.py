@@ -27,10 +27,6 @@ def test_booking_folder_get(test_client,init_database,new_diver_john ,new_diver_
 
     assert booking_diver_folder_id is not None
 
-
-
-    # TODO: check what happens if the folder is accidentally deleted
-
     # delete the folder
     client = jwt_check_client()
 
