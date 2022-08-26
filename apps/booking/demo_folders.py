@@ -71,7 +71,7 @@ def site_folder_create(site_id:int)->str:
 
 	demo_folder_id = demo_folder_get(client)
 
-	# try to create the demo folder in demo_folder (bookings)
+	# try to create the site folder in demo_folder (bookings)
 	try:
 		folder_id = client.folder(demo_folder_id).create_subfolder(site.name).id
 	except BoxAPIException as error:

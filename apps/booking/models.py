@@ -47,6 +47,7 @@ class Diver(db.Model):
     def __repr__(self):
         return "<TableName(id='%s')>" % self.id
 
+
 class Booking(db.Model):
     __tablename__ = 'Booking'
 
@@ -81,6 +82,8 @@ class Booking_Diver(db.Model):
     booking_id = db.Column(db.Integer, db.ForeignKey('Booking.id'), nullable=False)
     diver_id = db.Column(db.Integer, db.ForeignKey('Diver.id'), nullable=False)
     folder_id = db.Column(db.String(50), unique=True, nullable=True)
+    certification_file_id = db.Column(db.String(50), unique=False, nullable=True)
+    insurance_file_id = db.Column(db.String(50), unique=False, nullable=True)
     
 
     def __init__(self, **kwargs):
@@ -97,3 +100,4 @@ class Booking_Diver(db.Model):
 
     def __repr__(self):
         return "<TableName(id='%s')>" % self.id
+

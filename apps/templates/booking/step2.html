@@ -101,6 +101,9 @@
         var folder_id = '{{ folder_id }}';
         var accessToken = '{{ token }}';
         var options = JSON.parse('{{ options | tojson | safe }}');
+        var documentType = '{{ documentType }}';
+        var booking_diver_id = '{{ booking_diver_id }}';	
+        // TODO Add the booking_diver_id logic
 
         console.log('options:', options);
 
@@ -136,11 +139,13 @@
 
             var localData = {
                 eventType: eventType,
+                documentType: documentType,
+                booking_diver_id: booking_diver_id,
                 e: e
             };
 
             $.ajax({
-                url: "{{ url_for('home_blueprint.event') }}",
+                url: "{{ url_for('booking_blueprint.event') }}",
                 type: 'POST',
                 data: JSON.stringify(localData),
                 contentType: 'application/json;charset=UTF-8',
