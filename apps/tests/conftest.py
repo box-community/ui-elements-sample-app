@@ -15,6 +15,16 @@ def new_diver_john():
     return diver
 
 @pytest.fixture(scope='module')
+def new_diver_barduino():
+    diver = Diver(name='Barduino R',email = 'barduinor@gmail.com')
+    return diver
+
+@pytest.fixture(scope='module')
+def new_diver_barbas():
+    diver = Diver(name='Barbas R',email = 'barbasr@gmail.com')
+    return diver    
+
+@pytest.fixture(scope='module')
 def new_diver_jane():
     diver = Diver(name='Jane Smith',email = 'sjane@example.com')
     return diver    

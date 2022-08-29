@@ -1,18 +1,18 @@
 import json
-from apps.authentication.box_jwt import (
-    jwt_check_client,
-    jwt_downscoped_access_token_get,
-)
+
+from flask import redirect, render_template, request, url_for
+from apps.authentication.box_jwt import jwt_downscoped_access_token_get
+from apps.authentication.util import is_testing
 from apps.booking import blueprint
 from apps.booking.booking import form_to_booking
 from apps.booking.data_seed import data_seed
-from apps.booking.forms import BookingForm
-from apps.booking.template_helpers import booking_diver_upload_process, get_all_dive_sites_options
-from apps.booking.utils import get_date_tomorrow
-from flask import render_template, request, redirect, url_for
-from apps.authentication.util import is_testing
-from apps.booking.models import Booking, Booking_Diver, Diver
 from apps.booking.demo_folders import booking_diver_folder_get
+from apps.booking.forms import BookingForm
+from apps.booking.models import Booking, Booking_Diver
+from apps.booking.template_helpers import (booking_diver_upload_process,
+                                           get_all_dive_sites_options)
+from apps.booking.utils import get_date_tomorrow
+
 
 
 @blueprint.route("/booking", methods=["GET", "POST"])
