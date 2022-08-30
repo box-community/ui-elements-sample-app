@@ -68,10 +68,12 @@ def page_booking_upload():
 @blueprint.route('/event/upload/', methods=['POST'])
 def event():
     request_data = request.get_json()
-    if booking_diver_upload_process(request_data):
-        return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+    if not booking_diver_upload_process(request_data):
+        return json.dumps({'success':False,'message':'Invalid request'}), 400, {'ContentType':'application/json'} 
+        
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
     
-    return json.dumps({'success':False,'message':'Invalid request'}), 400, {'ContentType':'application/json'} 
+    
 
 @blueprint.route('/event/delete/', methods=['POST'])
 

@@ -83,7 +83,11 @@ class Booking_Diver(db.Model):
     diver_id = db.Column(db.Integer, db.ForeignKey('Diver.id'), nullable=False)
     folder_id = db.Column(db.String(50), unique=True, nullable=True)
     certification_file_id = db.Column(db.String(50), unique=False, nullable=True)
+    certification_task_id = db.Column(db.String(50), unique=False, nullable=True)
     insurance_file_id = db.Column(db.String(50), unique=False, nullable=True)
+    insurance_task_id = db.Column(db.String(50), unique=False, nullable=True)
+    waiver_file_id = db.Column(db.String(50), unique=False, nullable=True)
+    waiver_task_id = db.Column(db.String(50), unique=False, nullable=True)
     
 
     def __init__(self, **kwargs):

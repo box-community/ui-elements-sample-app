@@ -3,6 +3,7 @@ functions to help with templates
 """
 
 from xmlrpc.client import boolean
+from apps.booking.booking import booking_diver_trigger_task_certification, booking_diver_trigger_task_insurance
 from apps.booking.utils import get_all_dive_sites
 from apps.booking.models import Booking_Diver
 from apps import db
@@ -34,6 +35,7 @@ def booking_diver_upload_process(data)->boolean:
                 if data['e'][0]['id'] is not None:
                     booking_diver = Booking_Diver.query.filter_by(id=data['booking_diver_id']).first()
                     booking_diver.certification_file_id = data['e'][0]['id']
+                    booking_diver_trigger_task_certification(booking_diver.id)
                     db.session.commit()
                     return True
         elif data['documentType'] == 'INSURANCE':
@@ -41,6 +43,7 @@ def booking_diver_upload_process(data)->boolean:
                 if data['e'][0]['id'] is not None:
                     booking_diver = Booking_Diver.query.filter_by(id=data['booking_diver_id']).first()
                     booking_diver.insurance_file_id = data['e'][0]['id']
+                    booking_diver_trigger_task_insurance(booking_diver.id)
                     db.session.commit()
                     return True
     

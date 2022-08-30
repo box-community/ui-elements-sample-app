@@ -1,8 +1,9 @@
-from datetime import date
+from datetime import date, timedelta,datetime
 from apps import db
+from apps.authentication.box_jwt import jwt_check_client
 from apps.booking.forms import BookingForm
 from apps.booking.models import Booking, Booking_Diver, Diver
-
+from boxsdk import BoxAPIException
 
 def booking_create(dive_site_id: int, date: date):
     """Create a new booking"""
@@ -87,3 +88,130 @@ def form_to_booking(booking_form: BookingForm):
     )
 
     return booking
+
+def booking_diver_trigger_task_certification(booking_diver_id: int):
+    """Trigger task for booking diver"""
+    booking_diver = Booking_Diver.query.filter_by(id=booking_diver_id).first()
+    booking = Booking.query.filter_by(id=booking_diver.booking_id).first()
+    
+    client = jwt_check_client()
+    tasks = client.file(booking_diver.certification_file_id).get_tasks()
+
+    for task_item in tasks:
+        for entry in task_item['task_assignment_collection']['entries']:
+            if entry is not None:
+                task = task_item
+
+    due_date = datetime.combine(booking.date, datetime.min.time())
+    
+    users = client.users(user_type='managed')
+    barduino = None
+    for user in users:
+        print(f'{user.name} (User ID: {user.id})')
+        if user.login == 'barduinor@gmail.com': 
+            barduino = user
+            break
+        
+    task = None
+    if task is None:
+        task = client.file(booking_diver.certification_file_id).create_task(
+                action = 'review',
+                completion_rule = 'any_assignee',
+                due_at = due_date,
+                message = 'Verify certification'
+        )
+
+    # TODO: If the task assignment already exists then do not duplicate the assignment
+    assignment = client.task(task_id = task.id).assign(barduino)
+
+    booking_diver.certification_task_id = task.id
+    
+    db.session.commit()
+
+    return task
+
+
+def booking_diver_trigger_task_insurance(booking_diver_id: int):
+    """Trigger task for booking diver"""
+    booking_diver = Booking_Diver.query.filter_by(id=booking_diver_id).first()
+    booking = Booking.query.filter_by(id=booking_diver.booking_id).first()
+    
+    client = jwt_check_client()
+    tasks = client.file(booking_diver.insurance_file_id).get_tasks()
+
+    for task_item in tasks:
+        for entry in task_item['task_assignment_collection']['entries']:
+            if entry is not None:
+                task = task_item
+
+    due_date = datetime.combine(booking.date, datetime.min.time())
+    
+    users = client.users(user_type='managed')
+    barduino = None
+    
+    for user in users:
+        print(f'{user.name} (User ID: {user.id})')
+        if user.login == 'barduinor@gmail.com': 
+            barduino = user
+            break
+
+    task = None
+    if task is None:
+        task = client.file(booking_diver.insurance_file_id).create_task(
+                action = 'review',
+                completion_rule = 'any_assignee',
+                due_at = due_date,
+                message = 'Verify insurance'
+        )
+
+    # TODO: If the task assignment already exists then do not duplicate the assignment
+    assignment = client.task(task_id = task.id).assign(barduino)
+
+    booking_diver.insurance_task_id = task.id
+    
+    db.session.commit()
+
+    return task
+
+
+def booking_diver_trigger_task_waiver(booking_diver_id: int):
+    """Trigger task for booking diver"""
+    booking_diver = Booking_Diver.query.filter_by(id=booking_diver_id).first()
+    booking = Booking.query.filter_by(id=booking_diver.booking_id).first()
+    
+    client = jwt_check_client()
+    tasks = client.file(booking_diver.waiver_file_id).get_tasks()
+
+    task = None
+    for task_item in tasks:
+        for entry in task_item['task_assignment_collection']['entries']:
+            if entry is not None:
+                task = task_item
+
+    due_date = datetime.combine(booking.date, datetime.min.time())
+    
+    users = client.users(user_type='managed')
+    barduino = None
+    for user in users:
+        print(f'{user.name} (User ID: {user.id})')
+        if user.login == 'barduinor@gmail.com': 
+            barduino = user
+            break
+
+    if task is None:
+        task = client.file(booking_diver.waiver_file_id).create_task(
+                action = 'review',
+                completion_rule = 'any_assignee',
+                due_at = due_date,
+                message = 'Verify waiver'
+        )
+
+    # TODO: If the task assignment already exists then do not duplicate the assignment
+    assignment = client.task(task_id = task.id).assign(barduino)
+
+    booking_diver.waiver_task_id = task.id
+    
+    db.session.commit()
+
+    return task
+
