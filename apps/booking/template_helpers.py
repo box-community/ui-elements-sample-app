@@ -5,7 +5,7 @@ functions to help with templates
 from xmlrpc.client import boolean
 from apps.booking.booking import booking_diver_trigger_task_certification, booking_diver_trigger_task_insurance
 from apps.booking.utils import get_all_dive_sites
-from apps.booking.models import Booking_Diver
+from apps.booking.models import Booking, Booking_Diver, Dive_Site, Diver
 from apps import db
 
 
@@ -48,6 +48,20 @@ def booking_diver_upload_process(data)->boolean:
                     return True
     
     return False
+
+def bookings_get_by_user(user_id: int)->list:
+    """
+    Get all bookings for a user.
+    """
+    bookings = Booking.query.filter_by(created_by=user_id).all()
+
+    for booking in bookings:
+        booking.booking_divers = Booking_Diver.query.filter_by(booking_id=booking.id).all()
+        booking.dive_site = Dive_Site.query.filter_by(id=booking.dive_site_id).first()
+        for booking_diver in booking.booking_divers:
+            booking_diver.diver = Diver.query.filter_by(id=booking_diver.diver_id).first()
+
+    return bookings
 
 
 

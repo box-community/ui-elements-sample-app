@@ -10,23 +10,24 @@ from datetime import date, datetime, timedelta
 import email
 from apps.booking.models import Booking, Booking_Diver, Diver
 
+url_booking_new = "/booking/new"
 
 def test_booking_start(test_client, init_database):
     """
     GIVEN a Flask application configured for testing
-    WHEN the '/booking' page is requested (GET)
+    WHEN the new booking page is requested (GET)
     THEN check the response is valid
     """
-    response = test_client.get("/booking")
+    response = test_client.get(url_booking_new)
     assert response.status_code == 200
     assert b"Book a dive" in response.data
     assert b"Date" in response.data
     assert b"Site" in response.data
 
 
-def test_booking_submit(test_client, init_database):
+def test_booking_submit(test_client, init_database,login_user):
     """
-    GIVEN a booking page
+    GIVEN the new booking page
     WHEN the user enters date, site, name and email
     THEN a bookinfg should be created
     """
@@ -34,7 +35,7 @@ def test_booking_submit(test_client, init_database):
     book_date = date.today() + timedelta(days=5)
 
     response = test_client.post(
-        "/booking",
+        url_booking_new,
         data=dict(date=book_date, site=1, name="John Smith", email="sjohn@example.com"),
         follow_redirects=False,
     )
@@ -62,9 +63,9 @@ def test_booking_submit(test_client, init_database):
     assert booking_diver.booking_id == booking.id
     assert booking_diver.diver_id == diver.id
 
-def test_booking_submit_duplicate(test_client, init_database, new_diver_john):
+def test_booking_submit_duplicate(test_client, init_database, new_diver_john,login_user):
     """
-    GIVEN a booking page
+    GIVEN the new booking page
     WHEN the user enters date, site, name and email
     AND then date, site, name and email are duplicated
     THEN a bookinfg should be created but not duplicated
@@ -74,7 +75,7 @@ def test_booking_submit_duplicate(test_client, init_database, new_diver_john):
     book_date = date.today() + timedelta(days=5)
 
     response = test_client.post(
-        "/booking",
+        url_booking_new,
         data=dict(date=book_date, site=1, name=new_diver_john.name, email=new_diver_john.email),
         follow_redirects=False,
     )
@@ -89,7 +90,7 @@ def test_booking_submit_duplicate(test_client, init_database, new_diver_john):
 
     # Duplicate the booking
     response = test_client.post(
-        "/booking",
+        url_booking_new,
         data=dict(date=book_date, site=1, name=new_diver_john.name, email=new_diver_john.email),
         follow_redirects=False,
     )
@@ -115,9 +116,9 @@ def test_booking_submit_duplicate(test_client, init_database, new_diver_john):
     assert booking_divers is not None
     assert len(booking_divers) == 1
     
-def test_booking_submit_new_diver(test_client, init_database,new_diver_john ,new_diver_jane):
+def test_booking_submit_new_diver(test_client, init_database,new_diver_john ,new_diver_jane,login_user):
     """
-    GIVEN a booking page
+    GIVEN the new booking page
     WHEN the user enters date, site, name and email
     AND then date, site, are duplicated
     THEN a bookinfg should exist with the new diver assigned to it
@@ -129,7 +130,7 @@ def test_booking_submit_new_diver(test_client, init_database,new_diver_john ,new
 
     # book for Jane
     response = test_client.post(
-        "/booking",
+        url_booking_new,
         data=dict(date=book_date, site=1, name=new_diver_jane.name, email=new_diver_jane.email),
         follow_redirects=False,
     )
@@ -148,7 +149,7 @@ def test_booking_submit_new_diver(test_client, init_database,new_diver_john ,new
 
     # Book for John
     response = test_client.post(
-        "/booking",
+        url_booking_new,
         data=dict(date=book_date, site=1, name=new_diver_john.name, email=new_diver_john.email),
         follow_redirects=False,
     )

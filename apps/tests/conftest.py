@@ -77,6 +77,13 @@ def init_database(test_client):
     db.drop_all()
 
 @pytest.fixture(scope='module')
+def login_user(test_client,init_database):
+    response = test_client.post('/login',
+                                data=dict(email='sjohn@example.com', password='s3cr3t'),
+                                follow_redirects=True)
+    yield test_client   
+
+@pytest.fixture(scope='module')
 def init_db(test_client):
     # Create the database and the database table
     db.create_all()

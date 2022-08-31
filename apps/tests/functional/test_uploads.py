@@ -9,7 +9,9 @@ from apps.booking.waiver import booking_diver_waiver_sign
 from boxsdk import BoxAPIException
 
 
-def test_booking_folder_get(test_client, init_database, new_diver_john, new_diver_jane):
+def test_booking_folder_get(
+    test_client, init_database, new_diver_john, new_diver_jane, login_user
+):
     """
     GIVEN a booking
     WHEN the app needs to upload a file to the diver folder
@@ -18,7 +20,7 @@ def test_booking_folder_get(test_client, init_database, new_diver_john, new_dive
     """
 
     book_date = date.today() + timedelta(days=10)
-    booking = booking_from_data(1, book_date, new_diver_john.name, new_diver_john.email)
+    booking = booking_from_data(1, book_date, new_diver_john.name, new_diver_john.email,1)
     booking_diver = Booking_Diver.query.filter_by(booking_id=booking.id).first()
 
     assert booking is not None
@@ -50,7 +52,7 @@ def test_booking_folder_get(test_client, init_database, new_diver_john, new_dive
 
 
 def test_booking_upload_page(
-    test_client, init_database, new_diver_john, new_diver_jane
+    test_client, init_database, new_diver_john, new_diver_jane, login_user
 ):
     """
     GIVEN an upload page
@@ -59,8 +61,8 @@ def test_booking_upload_page(
     """
 
     book_date = date.today() + timedelta(days=10)
-    booking_from_data(1, book_date, new_diver_jane.name, new_diver_jane.email)
-    booking = booking_from_data(1, book_date, new_diver_john.name, new_diver_john.email)
+    booking_from_data(1, book_date, new_diver_jane.name, new_diver_jane.email,1)
+    booking = booking_from_data(1, book_date, new_diver_john.name, new_diver_john.email,1)
 
     assert booking is not None
 
@@ -80,7 +82,7 @@ def test_booking_upload_page(
 
 
 def test_booking_upload_event_cert(
-    test_client, init_database, new_diver_john, new_diver_jane
+    test_client, init_database, new_diver_john, new_diver_jane, login_user
 ):
     """
     GIVEN the event to upload a certification file to the booking_diver folder
@@ -90,7 +92,7 @@ def test_booking_upload_event_cert(
 
     book_date = date.today() + timedelta(days=10)
     # booking_from_data(1,book_date,new_diver_jane.name,new_diver_jane.email)
-    booking = booking_from_data(1, book_date, new_diver_john.name, new_diver_john.email)
+    booking = booking_from_data(1, book_date, new_diver_john.name, new_diver_john.email,1)
     booking_diver = Booking_Diver.query.filter_by(booking_id=booking.id).first()
     diver = Diver.query.filter_by(email=new_diver_john.email).first()
     bd_id = booking_diver.id
@@ -106,25 +108,23 @@ def test_booking_upload_event_cert(
     assert booking_diver_folder_id is not None
     assert booking_diver.certification_file_id is None
 
-    
     client = jwt_check_client()
-    
+
     # create a file
-    
+
     base_path = os.path.abspath(os.getcwd())
     file_path = os.path.join(base_path, "apps/tests/files/Padi-Scuba-Card.jpg")
     file_name = "CERT-" + diver.name + ".jpg"
 
-
     try:
         new_file = client.folder(booking_diver.folder_id).upload(
-            file_path=file_path, file_name = file_name
+            file_path=file_path, file_name=file_name
         )
     except BoxAPIException as error:
-        first_conflict = error.context_info['conflicts']
+        first_conflict = error.context_info["conflicts"]
 
-        if first_conflict['type'] == 'file':
-            new_file = client.file(first_conflict['id']).get()
+        if first_conflict["type"] == "file":
+            new_file = client.file(first_conflict["id"]).get()
 
     assert new_file is not None
 
@@ -149,12 +149,11 @@ def test_booking_upload_event_cert(
 
     assert response.status_code == 200
 
-    
-    booking_diver = Booking_Diver.query.filter_by(id = bd_id).first()
+    booking_diver = Booking_Diver.query.filter_by(id=bd_id).first()
 
     assert booking_diver.certification_file_id == new_file.id
     assert booking_diver.certification_task_id is not None
-    
+
     # check if task was created
     cert_task = client.task(booking_diver.certification_task_id).get()
 
@@ -164,7 +163,7 @@ def test_booking_upload_event_cert(
 
 
 def test_booking_upload_event_insurance(
-    test_client, init_database, new_diver_john, new_diver_jane
+    test_client, init_database, new_diver_john, new_diver_jane, login_user
 ):
     """
     GIVEN the event to upload an insurance file to the booking_diver folder
@@ -174,7 +173,7 @@ def test_booking_upload_event_insurance(
 
     book_date = date.today() + timedelta(days=10)
     # booking_from_data(1,book_date,new_diver_jane.name,new_diver_jane.email)
-    booking = booking_from_data(1, book_date, new_diver_john.name, new_diver_john.email)
+    booking = booking_from_data(1, book_date, new_diver_john.name, new_diver_john.email,1)
     booking_diver = Booking_Diver.query.filter_by(booking_id=booking.id).first()
     diver = Diver.query.filter_by(email=new_diver_john.email).first()
     bd_id = booking_diver.id
@@ -190,25 +189,23 @@ def test_booking_upload_event_insurance(
     assert booking_diver_folder_id is not None
     assert booking_diver.insurance_file_id is None
 
-    
     client = jwt_check_client()
-    
+
     # create a file
-    
+
     base_path = os.path.abspath(os.getcwd())
     file_path = os.path.join(base_path, "apps/tests/files/Dan-Insurance-Card.jpg")
     file_name = "INSURE-" + diver.name + ".jpg"
 
-
     try:
         new_file = client.folder(booking_diver.folder_id).upload(
-            file_path=file_path, file_name = file_name
+            file_path=file_path, file_name=file_name
         )
     except BoxAPIException as error:
-        first_conflict = error.context_info['conflicts']
+        first_conflict = error.context_info["conflicts"]
 
-        if first_conflict['type'] == 'file':
-            new_file = client.file(first_conflict['id']).get()
+        if first_conflict["type"] == "file":
+            new_file = client.file(first_conflict["id"]).get()
 
     assert new_file is not None
 
@@ -233,12 +230,11 @@ def test_booking_upload_event_insurance(
 
     assert response.status_code == 200
 
-    
-    booking_diver = Booking_Diver.query.filter_by(id = bd_id).first()
+    booking_diver = Booking_Diver.query.filter_by(id=bd_id).first()
 
     assert booking_diver.insurance_file_id == new_file.id
     assert booking_diver.insurance_task_id is not None
-    
+
     # check if task was created
     cert_task = client.task(booking_diver.insurance_task_id).get()
 
@@ -246,7 +242,8 @@ def test_booking_upload_event_insurance(
 
     assert file_tasks is not None
 
-def test_sign(test_client, init_database, new_diver_barbas):
+
+def test_sign(test_client, init_database, new_diver_barbas, login_user):
     """
     GIVEN a booking diver id
     WHEN a waiver sign is requested
@@ -254,7 +251,9 @@ def test_sign(test_client, init_database, new_diver_barbas):
     """
 
     book_date = date.today() + timedelta(days=10)
-    booking = booking_from_data(1, book_date, new_diver_barbas.name, new_diver_barbas.email)
+    booking = booking_from_data(
+        1, book_date, new_diver_barbas.name, new_diver_barbas.email, 1
+    )
     booking_diver = Booking_Diver.query.filter_by(booking_id=booking.id).first()
     diver = Diver.query.filter_by(email=new_diver_barbas.email).first()
     bd_id = booking_diver.id
@@ -271,15 +270,13 @@ def test_sign(test_client, init_database, new_diver_barbas):
 
     # Create a waiver sign request
     client = jwt_check_client()
-    
+
     sign_request = booking_diver_waiver_sign(bd_id)
 
-    sign_request_check = client.sign_request(sign_request_id = sign_request.id)
-    
+    sign_request_check = client.sign_request(sign_request_id=sign_request.id)
+
     assert sign_request == sign_request_check
 
     booking_diver = Booking_Diver.query.filter_by(id=bd_id).first()
 
-    assert booking_diver.waiver_file_id == sign_request.sign_files['files'][0].id
-
-
+    assert booking_diver.waiver_file_id == sign_request.sign_files["files"][0].id

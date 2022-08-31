@@ -5,13 +5,17 @@ These tests use GETs and POSTs to different URLs to check for the proper behavio
 of the blueprint.
 """
 
+from flask import url_for
+from apps.authentication import blueprint
+
 def test_login_page(test_client):
     """
     GIVEN a Flask application configured for testing
     WHEN the '/login' page is requested (GET)
     THEN check the response is valid
     """
-    response = test_client.get('/login')
+    url = '/login'
+    response = test_client.get(url)
     assert response.status_code == 200
     assert b'Login' in response.data
     assert b'Email' in response.data
