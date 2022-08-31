@@ -19,7 +19,7 @@ class Config(object):
     # UI Elements Demo
     REDIRECT_URI = os.getenv('REDIRECT_URI', '')
     DEMO_FOLDER_NAME = os.getenv('DEMO_FOLDER_NAME', 'Bookings')
-    SIGN_TEMPLATE_ID = os.getenv('SIGN_TEMPLATE_ID', '1002766519375')
+    SIGN_TEMPLATE_ID = os.getenv('SIGN_TEMPLATE_ID', '1003591818911')
 
     # This will create a file in <app> FOLDER
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
