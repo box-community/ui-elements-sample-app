@@ -3,7 +3,12 @@
 {% block title %} Book a dive {% endblock %}
 
 <!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/15.0.0/en-US/preview.css" />
+<link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/15.0.0/en-US/uploader.css" />
+
+<link rel="stylesheet" href="{{ config.ASSETS_ROOT }}/css/ui-elements.css">
+{% endblock stylesheets %}
 
 {% block content %}
 
@@ -35,73 +40,115 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="card">
+                                <div class="card card-event">
                                     <div class="card-header">
-                                        <h5>Book a dive</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="flash-messages">
-                                            {% for category, message in get_flashed_messages(with_categories=true) %}
-                                            <div class="alert {{ category }}">{{ message }}
+                                        <div class="row align-items-center justify-content-center">
+                                            <div class="col">
+                                                <h5>{{ booking.date }}</h5>
+                                                <h6 class="m-0 text-muted">{{ booking.dive_site.name }}</h6>
                                             </div>
-                                            {% endfor %}
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <form method="post">
-                                                    {{ form.hidden_tag() }}
-                                                    <div class="form-group">
-                                                        {{ form.date.label}}
-                                                        {{ form.date(placeholder="Date", class="form-control") }}
-                                                        {% for error in form.date.errors %}
-                                                        <small class="form-text text-muted">[{{ error }}]</span>
-                                                            {% endfor %}
-                                                    </div>
-                                                    <div class="form-group">
-                                                        {{ form.site.label}}
-                                                        {{ form.site(placeholder="Site", class="form-control") }}
-                                                        {% for error in form.site.errors %}
-                                                        <small class="form-text text-muted">[{{ error }}]</span>
-                                                            {% endfor %}
-                                                    </div>
-                                                    <div class="form-group">
-                                                        {{ form.name.label(class="form-label") }}
-                                                        {{ form.name(class="form-control") }}
-                                                        {% for error in form.name.errors %}
-                                                        <small class="form-text text-muted">[{{ error }}]</span>
-                                                            {% endfor %}
-                                                    </div>
-                                                    <div class="form-group">
-
-                                                        {{ form.email.label }}
-                                                        {{ form.email(class="form-control") }}
-                                                        {% for error in form.email.errors %}
-                                                        <small class="form-text text-muted">[{{ error }}]</span>
-                                                            {% endfor %}
-
-                                                    </div>
-                                                    <button type="submit" name="next"
-                                                        class="btn btn-primary shadow-2 mb-4">Next</button>
-                                                </form>
+                                            <div class="col-auto">
+                                                <label class="label theme-bg2 text-white f-14 f-w-400 float-right">
+                                                    New Diver
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="flash-messages">
+                                    {% for category, message in get_flashed_messages(with_categories=true) %}
+                                    <div class="alert {{ category }}">{{ message }}
+                                    </div>
+                                    {% endfor %}
+                                </div>
                             </div>
-
-                            <!-- [ Main Content ] end -->
                         </div>
+                        <div class="row">
+                            {% for booking_diver in booking.booking_divers %}
+                            <div class="col-sm-12">
+                                <div class="card card-event">
+                                    <div class="card-header">
+                                        <div class="row align-items-center justify-content-center">
+                                            <div class="col">
+                                                <h5>{{ booking_diver.diver.name }}</h5>
+                                                <h6 class="m-0 text-muted">{{ booking_diver.diver.email }}</h6>
+                                            </div>
+                                            <div class="col-auto">
+                                                <label class="label theme-bg2 text-white f-14 f-w-400 float-right">
+                                                    Edit
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="card-block m-0 border-top border-left border-right">
+                                                    <h5>Certification</h5>
+                                                </div>
+                                                <div class="border">
+                                                    {% if booking_diver.certification_file_id %}
+                                                        {% with file_id = booking_diver.certification_file_id %}
+                                                            {% include 'booking/previewer_single_file.html' %}
+                                                        {% endwith %}
+                                                    {% else %}
+                                                        {% with documentType = 'CERTIFICATE' ,folder_id = booking_diver.folder_id %}
+                                                            {% include 'booking/uploader_single_file.html' %}
+                                                        {% endwith %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="card-block m-0 border-top border-left border-right">
+                                                    <h5>Insurance</h5>
+                                                </div>
+                                                <div class="border">
+                                                    {% if booking_diver.insurance_file_id %}
+                                                        {% with file_id = booking_diver.insurance_file_id %}
+                                                            {% include 'booking/previewer_single_file.html' %}
+                                                        {% endwith %}
+                                                    {% else %}
+                                                        {% with documentType = 'INSURANCE' ,folder_id = booking_diver.folder_id %}
+                                                            {% include 'booking/uploader_single_file.html' %}
+                                                        {% endwith %}
+                                                    {% endif %}
+                                                </div>
+
+                                            </div>
+                                            
+                                            <div class="col-sm-4">
+                                                <div class="card-block m-0 border-top border-left border-right">
+                                                    <h5>Waiver</h5>
+                                                </div>
+                                                    <div class="card-block border">
+                                                        this is where the wiaver goes
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
+
+                    <!-- [ Main Content ] end -->
                 </div>
             </div>
         </div>
     </div>
-    <!-- [ Main Content ] end -->
+</div>
+</div>
+<!-- [ Main Content ] end -->
 
-    {% endblock content %}
+{% endblock content %}
 
-    <!-- Specific Page JS goes HERE  -->
-    {% block javascripts %}
-
-    {% endblock javascripts %}
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="https://cdn01.boxcdn.net/platform/elements/15.0.0/en-US/preview.js"></script>
+<script src="https://cdn01.boxcdn.net/platform/elements/15.0.0/en-US/uploader.js"></script>
+<script src="{{ config.ASSETS_ROOT }}/js/ui-elements.js"></script>
+{% endblock javascripts %}

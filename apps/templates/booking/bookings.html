@@ -37,41 +37,45 @@
                             <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <div class="row">
+                                        <div class="row align-items-center justify-content-center">
                                             <!-- <div class="col-sm-12"> -->
-                                            <div class="col-sm-6">
+                                            <div class="col">
                                                 <h5>My Bookings</h5>
                                             </div>
-                                            <div class="col-sm-6 align-right">
-                                                <a href="{{ url_for('booking_blueprint.page_booking_new') }}">New
+                                            <div class="col-auto">
+                                                <a class="label theme-bg2 text-white f-14 f-w-400 float-right"
+                                                    href="{{ url_for('booking_blueprint.page_booking_new') }}">New
                                                     Booking</a>
                                             </div>
                                             <!-- </div> -->
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="card-body">
-                                        <div class="flash-messages">
-                                            {% for category, message in get_flashed_messages(with_categories=true) %}
-                                            <div class="alert {{ category }}">{{ message }}
-                                            </div>
-                                            {% endfor %}
+                                <div class="">
+                                    <div class="flash-messages">
+                                        {% for category, message in get_flashed_messages(with_categories=true) %}
+                                        <div class="alert {{ category }}">{{ message }}
                                         </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     {% for booking in bookings %}
                                     <div class="col-sm-6">
                                         <div class="card">
                                             <div class="card-header">
-                                                <div class="row">
-                                                    <div class="col-sm-6">
+                                                <div class="row align-items-center justify-content-center">
+                                                    <div class="col">
                                                         <h5>{{ booking.date }}</h5>
                                                         <h6>{{ booking.dive_site.name }}</h6>
                                                     </div>
-                                                    <div class="col-sm-6">
-                                                        <a href="{{ url_for('booking_blueprint.page_booking_new') }}">Add
-                                                            Diver</a>
+                                                    <div class="col-auto">
+
+                                                        <a class="label theme-bg2 text-white f-14 f-w-400 float-right"
+                                                            href="{{ url_for('booking_blueprint.page_booking',booking_id = booking.id) }}">View</a>
+
                                                     </div>
                                                 </div>
                                             </div>

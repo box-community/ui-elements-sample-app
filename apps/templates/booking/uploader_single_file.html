@@ -1,0 +1,33 @@
+
+
+<div class="uie-upload-{{ documentType }}-{{ booking_diver.id }}" style="height: 260px;"></div>
+
+
+
+<style type="text/css">
+    .bcu-footer-left {
+        display: none;
+    }
+
+    .bcu-footer .btn {
+        padding: 0 16px;
+        font-size: 14px;
+        line-height: 24px;
+    }
+
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        renderUploader_single('{{ token }}',
+            '.uie-upload-{{ documentType }}-{{ booking_diver.id }}',
+            '{{ folder_id }}',
+            '{{ documentType }}',
+            '{{ booking_diver.id }}'
+        );
+    });
+
+
+
+
+</script>

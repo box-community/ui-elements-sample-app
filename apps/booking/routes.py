@@ -10,7 +10,7 @@ from apps.booking.data_seed import data_seed
 from apps.booking.demo_folders import booking_diver_folder_get
 from apps.booking.forms import BookingForm
 from apps.booking.models import Booking, Booking_Diver
-from apps.booking.template_helpers import (booking_diver_upload_process, bookings_get_by_user,
+from apps.booking.template_helpers import (booking_diver_upload_process, booking_get_by_id, bookings_get_by_user,
                                            get_all_dive_sites_options)
 from apps.booking.utils import get_date_tomorrow
 
@@ -20,6 +20,17 @@ def page_bookings(): # list user bookings
     bookings = bookings_get_by_user(current_user.id)
     return render_template("booking/bookings.html", bookings=bookings)
 
+@blueprint.route("/booking/<int:booking_id>", methods=["GET", "POST"])
+@login_required
+def page_booking(booking_id): # Show booking details
+    booking = booking_get_by_id(booking_id, current_user.id)
+    token = jwt_downscoped_access_token_get()
+    
+    for booking_diver in booking.booking_divers:
+        cert_folder = booking_diver_folder_get(booking_diver.id)
+
+
+    return render_template("booking/booking.html", booking=booking, token=token)
 
 
 
@@ -31,6 +42,7 @@ def page_booking_new():
     booking_form.date.default = get_date_tomorrow()
     booking_form.site.choices = get_all_dive_sites_options()
 
+
     if request.method == "POST" or is_testing():
         if booking_form.validate():
             booking_new = form_to_booking(booking_form,current_user.id)
@@ -40,7 +52,7 @@ def page_booking_new():
             )
             return redirect(url)
 
-    return render_template("booking/booking.html", form=booking_form)
+    return render_template("booking/booking_new.html", form=booking_form)
 
 
 @blueprint.route("/booking/upload", methods=["GET", "POST"])
@@ -79,10 +91,20 @@ def event():
     
     
 
-@blueprint.route("/test", methods=["GET", "POST"])
+@blueprint.route("/form_elements", methods=["GET", "POST"])
 def page_test():
     print(f"***********************  Method: {request.method}")
     return render_template("home/form_elements.html")
+
+@blueprint.route("/old_index", methods=["GET", "POST"])
+def page_old_index():
+    print(f"***********************  Method: {request.method}")
+    return render_template("home/index orig.html")    
+
+@blueprint.route("/tbl_bootstrap", methods=["GET", "POST"])
+def page_tbl_bootstrap():
+    print(f"***********************  Method: {request.method}")
+    return render_template("home/tbl_bootstrap.html")    
 
 
 @blueprint.errorhandler(403)

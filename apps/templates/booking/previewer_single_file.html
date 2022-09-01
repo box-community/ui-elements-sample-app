@@ -1,0 +1,19 @@
+<style type="text/css">
+    .bp {
+        background-color: inherit;
+    }
+</style>
+
+<div class="ui-element-{{ file_id }}" style="height: 260px;"></div>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        renderPreview_single('{{ token }}',
+            '.ui-element-{{ file_id }}',
+            '{{ file_id }}'
+        );
+    });
+
+
+</script>
