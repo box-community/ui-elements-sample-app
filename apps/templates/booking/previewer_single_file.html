@@ -4,13 +4,15 @@
     }
 </style>
 
-<div class="ui-element-{{ file_id }}" style="height: 260px;"></div>
+<div id="{{ documentType }}-{{ booking_diver.id }}" class="{{ documentType }}-{{ booking_diver.id }}"
+    data-token="{{ token }}" data-file_id="{{ file_id }}" style="height: 260px;">
+</div>
 
 <script>
 
     document.addEventListener("DOMContentLoaded", function (event) {
         renderPreview_single('{{ token }}',
-            '.ui-element-{{ file_id }}',
+            '.{{ documentType }}-{{ booking_diver.id }}',
             '{{ file_id }}'
         );
     });

@@ -1,6 +1,6 @@
-
-
-<div class="uie-upload-{{ documentType }}-{{ booking_diver.id }}" style="height: 260px;"></div>
+<div id="{{ documentType }}-{{ booking_diver.id }}" class="{{ documentType }}-{{ booking_diver.id }}"
+    style="height: 260px;">
+</div>
 
 
 
@@ -14,18 +14,24 @@
         font-size: 14px;
         line-height: 24px;
     }
-
 </style>
 
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
+        var element = document.getElementById('{{ documentType }}-{{ booking_diver.id }}')
         renderUploader_single('{{ token }}',
-            '.uie-upload-{{ documentType }}-{{ booking_diver.id }}',
+            '.{{ documentType }}-{{ booking_diver.id }}',
             '{{ folder_id }}',
             '{{ documentType }}',
-            '{{ booking_diver.id }}'
+            '{{ booking_diver.id }}',
+            uploaderSendEventToServer,
+            "{{ url_for('booking_blueprint.event') }}",
+            "{{ url_for('booking_blueprint.page_booking',booking_id=booking_diver.booking_id ) }}",
+            element,
         );
     });
+
+
 
 
 

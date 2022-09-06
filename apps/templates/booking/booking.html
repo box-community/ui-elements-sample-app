@@ -88,13 +88,15 @@
                                                 </div>
                                                 <div class="border">
                                                     {% if booking_diver.certification_file_id %}
-                                                        {% with file_id = booking_diver.certification_file_id %}
-                                                            {% include 'booking/previewer_single_file.html' %}
-                                                        {% endwith %}
+                                                    {% with documentType = 'CERTIFICATE' ,file_id =
+                                                    booking_diver.certification_file_id %}
+                                                    {% include 'booking/previewer_single_file.html' %}
+                                                    {% endwith %}
                                                     {% else %}
-                                                        {% with documentType = 'CERTIFICATE' ,folder_id = booking_diver.folder_id %}
-                                                            {% include 'booking/uploader_single_file.html' %}
-                                                        {% endwith %}
+                                                    {% with documentType = 'CERTIFICATE' ,folder_id =
+                                                    booking_diver.folder_id %}
+                                                    {% include 'booking/uploader_single_file.html' %}
+                                                    {% endwith %}
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -104,42 +106,40 @@
                                                 </div>
                                                 <div class="border">
                                                     {% if booking_diver.insurance_file_id %}
-                                                        {% with file_id = booking_diver.insurance_file_id %}
-                                                            {% include 'booking/previewer_single_file.html' %}
-                                                        {% endwith %}
+                                                    {% with documentType = 'INSURANCE' ,file_id =
+                                                    booking_diver.insurance_file_id %}
+                                                    {% include 'booking/previewer_single_file.html' %}
+                                                    {% endwith %}
                                                     {% else %}
-                                                        {% with documentType = 'INSURANCE' ,folder_id = booking_diver.folder_id %}
-                                                            {% include 'booking/uploader_single_file.html' %}
-                                                        {% endwith %}
+                                                    {% with documentType = 'INSURANCE' ,folder_id =
+                                                    booking_diver.folder_id %}
+                                                    {% include 'booking/uploader_single_file.html' %}
+                                                    {% endwith %}
                                                     {% endif %}
                                                 </div>
-
                                             </div>
-                                            
                                             <div class="col-sm-4">
                                                 <div class="card-block m-0 border-top border-left border-right">
                                                     <h5>Waiver</h5>
                                                 </div>
-                                                    <div class="card-block border">
-                                                        this is where the wiaver goes
-                                                    </div>
+                                                <div class="card-block border">
+                                                    this is where the wiaver goes
                                                 </div>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
                     </div>
-
-                    <!-- [ Main Content ] end -->
                 </div>
+
+                <!-- [ Main Content ] end -->
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 <!-- [ Main Content ] end -->
