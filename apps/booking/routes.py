@@ -21,13 +21,13 @@ def page_home():
     """
     Home page of the booking app.
     """
-    return render_template('booking/home.html', title='Home')
+    return render_template('booking/home.html', title='Home',segment = 'home')
 
 @blueprint.route("/bookings", methods=["GET", "POST"])
 @login_required
 def page_bookings(): # list user bookings
     bookings = bookings_get_by_user(current_user.id)
-    return render_template("booking/bookings.html", bookings=bookings)
+    return render_template("booking/bookings.html", bookings=bookings,segment='bookings')
 
 @blueprint.route("/booking/<int:booking_id>", methods=["GET", "POST"])
 @login_required
