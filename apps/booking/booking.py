@@ -68,7 +68,6 @@ def booking_diver_get_or_create(booking_id: int, diver_id: int):
         booking_diver = booking_diver_create(booking_id=booking_id, diver_id=diver_id)
     return booking_diver
 
-
 def booking_from_data(site_id: int, date: date, name: str, email: str,created_by: int):
     """Create a new booking from data"""
     booking = booking_get_or_create(site_id, date,created_by)

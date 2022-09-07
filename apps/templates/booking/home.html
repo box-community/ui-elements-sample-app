@@ -32,7 +32,7 @@
                 <div class="main-body">
                     <div class="page-wrapper">
                         <!-- [ Main Content ] start -->
-
+                        <form method="POST">
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="card card-event">
@@ -42,16 +42,22 @@
                                             <div class="col">
                                                 <h5>Dive Into the Box</h5>
                                             </div>
-                                            <!-- <div class="col-auto">
-                                                <a class="label theme-bg2 text-white f-14 f-w-400 float-right"
-                                                    href="{{ url_for('booking_blueprint.page_booking_new') }}">New
-                                                    Booking</a>
-                                            </div> -->
-                                            <!-- </div> -->
+
+                                            <div class="col-auto form-inline">
+                                                <!-- <form class="form-inline"> -->
+                                                    {{ form.hidden_tag() }}
+                                                    <div class="form-group mb-2">
+                                                        <label for="Date" class="">Booking Date:</label>
+                                                        {{ form.date(placeholder="Date", class="form-control") }}
+                                                        {% for error in form.date.errors %}
+                                                        <small class="form-text text-muted">[{{ error }}]</span>
+                                                            {% endfor %}
+                                                    </div>
+                                                <!-- </form> -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="">
                                     <div class="flash-messages">
                                         {% for category, message in get_flashed_messages(with_categories=true) %}
@@ -63,22 +69,6 @@
 
                                 <div class="row">
                                     {% for dive_site in dive_sites %}
-                                    <!-- <div class="col-sm-6">
-                                        <div class="card card-event">
-                                            <div class="card-header">
-                                                <div class="row align-items-center justify-content-center">
-                                                    <div class="col">
-                                                        <h5>{{ dive_site.name }}</h5>
-                                                        <h6>{{ dive_site.picture_url }}</h6>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                            </div>
-                                        </div>
-                                    </div> -->
                                     <!-- <img src="{{ config.ASSETS_ROOT }}{{ dive_site.picture_url}}" alt="..."> -->
                                     <div class="col-sm-6">
                                         <div class="card card-event">
@@ -88,8 +78,7 @@
                                                         <h5 class="card-title">{{ dive_site.name }}</h5>
                                                     </div>
                                                     <div class="col-auto">
-                                                        <a class="label theme-bg2 text-white f-14 f-w-400 float-right"
-                                                            href="{{ url_for('booking_blueprint.page_booking_new') }}">Book</a>
+                                                        <button type="submit" name="site" value="{{ dive_site.id }}" class="btn label theme-bg2 text-white f-14 f-w-400 float-right">Book</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -102,6 +91,7 @@
                                     {% endfor %}
                                 </div>
                             </div>
+                        </form>
                         </div>
                     </div>
                 </div>
