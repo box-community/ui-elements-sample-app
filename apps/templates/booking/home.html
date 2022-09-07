@@ -1,0 +1,115 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Book a dive {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <!-- <h5 class="m-b-10">Booking a Dive</h5> -->
+                                </div>
+                                <!-- <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">Booking Page</a></li>
+                                    </ul> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card card-event">
+                                    <div class="card-header">
+                                        <div class="row align-items-center justify-content-center">
+                                            <!-- <div class="col-sm-12"> -->
+                                            <div class="col">
+                                                <h5>Dive Into the Box</h5>
+                                            </div>
+                                            <!-- <div class="col-auto">
+                                                <a class="label theme-bg2 text-white f-14 f-w-400 float-right"
+                                                    href="{{ url_for('booking_blueprint.page_booking_new') }}">New
+                                                    Booking</a>
+                                            </div> -->
+                                            <!-- </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="">
+                                    <div class="flash-messages">
+                                        {% for category, message in get_flashed_messages(with_categories=true) %}
+                                        <div class="alert {{ category }}">{{ message }}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    {% for booking in bookings %}
+                                    <div class="col-sm-6">
+                                        <div class="card card-event">
+                                            <div class="card-header">
+                                                <div class="row align-items-center justify-content-center">
+                                                    <div class="col">
+                                                        <h5>{{ booking.date }}</h5>
+                                                        <h6>{{ booking.dive_site.name }}</h6>
+                                                    </div>
+                                                    <div class="col-auto">
+
+                                                        <a class="label theme-bg2 text-white f-14 f-w-400 float-right"
+                                                            href="{{ url_for('booking_blueprint.page_booking',booking_id = booking.id) }}">View</a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul>
+                                                    {% for booking_diver in booking.booking_divers %}
+                                                    <li>
+                                                        {{ booking_diver.diver.name }} ({{ booking_diver.diver.email }})
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- [ Main Content ] end -->
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+{% endblock javascripts %}
