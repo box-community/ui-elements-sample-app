@@ -14,6 +14,15 @@ from apps.booking.template_helpers import (booking_diver_upload_process, booking
                                            get_all_dive_sites_options)
 from apps.booking.utils import get_date_tomorrow
 
+@blueprint.route('/')
+@blueprint.route('/home')
+@login_required
+def page_home():
+    """
+    Home page of the booking app.
+    """
+    return render_template('booking/home.html', title='Home')
+
 @blueprint.route("/bookings", methods=["GET", "POST"])
 @login_required
 def page_bookings(): # list user bookings
@@ -35,6 +44,7 @@ def page_booking(booking_id): # Show booking details
 
 
 @blueprint.route("/booking/new", methods=["GET", "POST"])
+@login_required
 def page_booking_new():
     data_seed()
 
@@ -56,6 +66,7 @@ def page_booking_new():
 
 
 @blueprint.route("/booking/upload", methods=["GET", "POST"])
+@login_required
 def page_booking_upload():
     booking_id = request.args.get("booking_id")
     booking = Booking.query.filter_by(id=booking_id).first_or_404()
@@ -82,7 +93,7 @@ def page_booking_upload():
     )
 
 @blueprint.route('/event/upload/', methods=['POST'])
-def event():
+def event_upload():
     request_data = request.get_json()
     if not booking_diver_upload_process(request_data):
         return json.dumps({'success':False,'message':'Invalid request'}), 400, {'ContentType':'application/json'} 
@@ -105,6 +116,11 @@ def page_old_index():
 def page_tbl_bootstrap():
     print(f"***********************  Method: {request.method}")
     return render_template("home/tbl_bootstrap.html")    
+
+@blueprint.route("/icon-feather", methods=["GET", "POST"])
+def page_icon_feather():
+    print(f"***********************  Method: {request.method}")
+    return render_template("home/icon-feather.html")   
 
 
 @blueprint.errorhandler(403)
