@@ -62,31 +62,40 @@
                                 </div>
 
                                 <div class="row">
-                                    {% for booking in bookings %}
+                                    {% for dive_site in dive_sites %}
+                                    <!-- <div class="col-sm-6">
+                                        <div class="card card-event">
+                                            <div class="card-header">
+                                                <div class="row align-items-center justify-content-center">
+                                                    <div class="col">
+                                                        <h5>{{ dive_site.name }}</h5>
+                                                        <h6>{{ dive_site.picture_url }}</h6>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <!-- <img src="{{ config.ASSETS_ROOT }}{{ dive_site.picture_url}}" alt="..."> -->
                                     <div class="col-sm-6">
                                         <div class="card card-event">
                                             <div class="card-header">
                                                 <div class="row align-items-center justify-content-center">
                                                     <div class="col">
-                                                        <h5>{{ booking.date }}</h5>
-                                                        <h6>{{ booking.dive_site.name }}</h6>
+                                                        <h5 class="card-title">{{ dive_site.name }}</h5>
                                                     </div>
                                                     <div class="col-auto">
-
                                                         <a class="label theme-bg2 text-white f-14 f-w-400 float-right"
-                                                            href="{{ url_for('booking_blueprint.page_booking',booking_id = booking.id) }}">View</a>
-
+                                                            href="{{ url_for('booking_blueprint.page_booking_new') }}">Book</a>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card-body">
-                                                <ul>
-                                                    {% for booking_diver in booking.booking_divers %}
-                                                    <li>
-                                                        {{ booking_diver.diver.name }} ({{ booking_diver.diver.email }})
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
+                                            <div class="card-body text-center p-0">
+                                                <img src="{{ config.ASSETS_ROOT }}{{ dive_site.picture_url}}"
+                                                    style="width:100%" alt="Picture of {{ dive_site.name }} underwater">
                                             </div>
                                         </div>
                                     </div>

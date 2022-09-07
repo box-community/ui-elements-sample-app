@@ -7,6 +7,7 @@ class Dive_Site(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(500), unique=True, nullable=False)
     folder_id = db.Column(db.String(500), unique=True, nullable=True)
+    picture_url = db.Column(db.String(500), unique=False, nullable=True)
 
     def __init__(self, **kwargs):
 

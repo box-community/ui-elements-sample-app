@@ -12,7 +12,7 @@ from apps.booking.forms import BookingForm
 from apps.booking.models import Booking, Booking_Diver
 from apps.booking.template_helpers import (booking_diver_upload_process, booking_get_by_id, bookings_get_by_user,
                                            get_all_dive_sites_options)
-from apps.booking.utils import get_date_tomorrow
+from apps.booking.utils import get_all_dive_sites, get_date_tomorrow
 
 @blueprint.route('/')
 @blueprint.route('/home')
@@ -21,7 +21,9 @@ def page_home():
     """
     Home page of the booking app.
     """
-    return render_template('booking/home.html', title='Home',segment = 'home')
+    data_seed()
+    dive_sites = get_all_dive_sites()
+    return render_template('booking/home.html', title='Home',segment = 'home', dive_sites = dive_sites)
 
 @blueprint.route("/bookings", methods=["GET", "POST"])
 @login_required

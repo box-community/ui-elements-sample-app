@@ -8,6 +8,13 @@ from apps.booking.models import Booking, Booking_Diver, Dive_Site, Diver
 from apps import db
 
 
+def get_all_dive_sites():
+    """
+    Return a list of Dive_Site objects.
+    """
+    dive_sites = Dive_Site.query.all()
+    return dive_sites
+
 def get_all_dive_sites_options():
     """
     Return a list of tuples with the dive site id and name.
