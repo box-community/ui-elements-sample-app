@@ -32,7 +32,7 @@ def page_home():
             booking_date = form_booking_new.date.data
             booking_site = form_booking_new.site.data
             booking = booking_get_or_create(booking_site, booking_date)
-            return redirect(url_for('booking_blueprint.page_booking', booking_id=booking.id))
+            return redirect(url_for('booking_blueprint.page_booking_new_diver', booking_id=booking.id))
     
     return render_template('booking/home.html', avatar_url = current_user.avatar_url, title='Home',segment = 'home', dive_sites = dive_sites, form = form_booking_new)
 
