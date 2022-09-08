@@ -19,13 +19,15 @@ def get_file_list(client:Client)->list:
 	demo_folder_id = get_demo_folder_id(client)
 
 	files = client.folder(demo_folder_id).get_items()
+
+	#TODO: grab some files to show
 	
 	file_list = []
-	for file in files:
-		file_list.append(file.id)
+	# for file in files:
+	# 	file_list.append(file.id)
 
-	if len(file_list) == 0:
-		upload_demo_files(client)
+	# if len(file_list) == 0:
+	# 	upload_demo_files(client)
 
 	return file_list
 

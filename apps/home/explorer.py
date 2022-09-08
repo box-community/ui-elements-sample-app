@@ -1,10 +1,13 @@
 from flask import render_template
 from flask_login import current_user
+from apps import Config
+from apps.authentication.box_jwt import jwt_check_client
+from apps.home.demo_files import get_demo_folder_id
 
 def explorer(token):
 
     token = token
-    rootFolderId = 0
+    rootFolderId = get_demo_folder_id(jwt_check_client())
 
     optionsSidebar = {
         'hasActivityFeed': True,
