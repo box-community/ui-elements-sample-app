@@ -60,10 +60,11 @@ def bookings_get_by_user(user_id: int)->list:
     """
     Get all bookings for a user.
     """
-    bookings = Booking.query.filter_by(created_by=user_id).all()
+
+    bookings = Booking.query.join(Booking_Diver, Booking.id == Booking_Diver.booking_id).filter(Booking_Diver.created_by == user_id).all()
 
     for booking in bookings:
-        booking.booking_divers = Booking_Diver.query.filter_by(booking_id=booking.id).all()
+        booking.booking_divers = Booking_Diver.query.filter_by(booking_id=booking.id,created_by = user_id).all()
         booking.dive_site = Dive_Site.query.filter_by(id=booking.dive_site_id).first()
         for booking_diver in booking.booking_divers:
             booking_diver.diver = Diver.query.filter_by(id=booking_diver.diver_id).first()
@@ -74,8 +75,10 @@ def booking_get_by_id(booking_id: int,created_by:int)->Booking:
     """
     Get a booking by id.
     """
-    booking = Booking.query.filter_by(id=booking_id,created_by = created_by).first()
-    booking.booking_divers = Booking_Diver.query.filter_by(booking_id=booking.id).all()
+
+    # booking = Booking.query.join(Booking_Diver, Booking.id == Booking_Diver.booking_id).filter(Booking_Diver.created_by == created_by).filter_by(id=booking_id).first()
+    booking = Booking.query.filter_by(id=booking_id).first()
+    booking.booking_divers = Booking_Diver.query.filter_by(booking_id=booking.id,created_by = created_by).all()
     booking.dive_site = Dive_Site.query.filter_by(id=booking.dive_site_id).first()
     for booking_diver in booking.booking_divers:
         booking_diver.diver = Diver.query.filter_by(id=booking_diver.diver_id).first()

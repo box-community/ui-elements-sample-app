@@ -62,8 +62,6 @@ class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, nullable=False)
     dive_site_id = db.Column(db.Integer, db.ForeignKey('Dive_Site.id'), nullable=False)
-    created_on = db.Column(db.DateTime, default=datetime.utcnow)
-    created_by = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=True)
     folder_id = db.Column(db.String(50), unique=True, nullable=True)
 
 
@@ -90,12 +88,18 @@ class Booking_Diver(db.Model):
     booking_id = db.Column(db.Integer, db.ForeignKey('Booking.id'), nullable=False)
     diver_id = db.Column(db.Integer, db.ForeignKey('Diver.id'), nullable=False)
     folder_id = db.Column(db.String(50), unique=True, nullable=True)
+    
     certification_file_id = db.Column(db.String(50), unique=False, nullable=True)
     certification_task_id = db.Column(db.String(50), unique=False, nullable=True)
+    
     insurance_file_id = db.Column(db.String(50), unique=False, nullable=True)
     insurance_task_id = db.Column(db.String(50), unique=False, nullable=True)
+    
     waiver_file_id = db.Column(db.String(50), unique=False, nullable=True)
     waiver_task_id = db.Column(db.String(50), unique=False, nullable=True)
+
+    created_on = db.Column(db.DateTime, default=datetime.utcnow)
+    created_by = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=True)
     
 
     def __init__(self, **kwargs):

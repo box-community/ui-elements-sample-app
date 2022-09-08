@@ -51,7 +51,7 @@ def test_booking_folder_get(
     assert folder is not None
 
 
-def test_booking_upload_page(
+def test_booking_details(
     test_client, init_database, new_diver_john, new_diver_jane, login_user
 ):
     """
@@ -68,17 +68,16 @@ def test_booking_upload_page(
 
     booking = Booking.query.order_by(Booking.id.desc()).first()
     response = test_client.get(
-        "/booking/upload",
-        query_string={"booking_id": booking.id},
+        "/booking/"+str(booking.id),
         follow_redirects=False,
     )
 
     assert response.status_code == 200
-    assert b"Upload Documents" in response.data
+    assert b"Certification" in response.data
 
-    assert b"Booking Details" in response.data
+    assert b"Insurance" in response.data
 
-    assert b"Upload Dive Certification Card" in response.data
+    assert b"Waiver" in response.data
 
 
 def test_booking_upload_event_cert(

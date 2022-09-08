@@ -31,7 +31,7 @@ def page_home():
         if form_booking_new.validate_on_submit():
             booking_date = form_booking_new.date.data
             booking_site = form_booking_new.site.data
-            booking = booking_get_or_create(booking_site, booking_date, current_user.id)
+            booking = booking_get_or_create(booking_site, booking_date)
             return redirect(url_for('booking_blueprint.page_booking', booking_id=booking.id))
     
     return render_template('booking/home.html', avatar_url = current_user.avatar_url, title='Home',segment = 'home', dive_sites = dive_sites, form = form_booking_new)
@@ -71,7 +71,7 @@ def page_booking_new_diver(booking_id):
     if request.method == "POST" or is_testing():
         if form_diver.validate_on_submit():
             diver = diver_get_or_create(form_diver.name.data, form_diver.email.data)
-            booking_diver = booking_diver_get_or_create(booking.id, diver.id)
+            booking_diver = booking_diver_get_or_create(booking.id, diver.id, current_user.id)
             return redirect(url_for('booking_blueprint.page_booking', booking_id=booking_id))
 
     return render_template("booking/booking_new_diver.html", avatar_url = current_user.avatar_url, booking=booking, form=form_diver)

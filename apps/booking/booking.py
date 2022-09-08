@@ -5,9 +5,9 @@ from apps.booking.forms import BookingForm
 from apps.booking.models import Booking, Booking_Diver, Diver
 from boxsdk import BoxAPIException
 
-def booking_create(dive_site_id: int, date: date, created_by: int):
+def booking_create(dive_site_id: int, date: date):
     """Create a new booking"""
-    booking = Booking(date=date, dive_site_id=dive_site_id,created_by=created_by)
+    booking = Booking(date=date, dive_site_id=dive_site_id)
     db.session.add(booking)
     db.session.commit()
     return booking
@@ -17,11 +17,11 @@ def booking_get_by_site_and_date(dive_site_id: int, date: date):
     return Booking.query.filter_by(dive_site_id=dive_site_id, date=date).first()
 
 
-def booking_get_or_create(dive_site_id: int, date: date, created_by: int):
+def booking_get_or_create(dive_site_id: int, date: date):
     """Get booking by dive site and date or create a new booking"""
     booking = booking_get_by_site_and_date(dive_site_id=dive_site_id, date=date)
     if not booking:
-        booking = booking_create(dive_site_id=dive_site_id, date=date, created_by=created_by)
+        booking = booking_create(dive_site_id=dive_site_id, date=date)
     return booking
 
 
@@ -46,9 +46,9 @@ def diver_get_or_create(name: str, email: str):
     return diver
 
 
-def booking_diver_create(booking_id: int, diver_id: int):
+def booking_diver_create(booking_id: int, diver_id: int, created_by: int):
     """Create a new booking diver"""
-    booking_diver = Booking_Diver(booking_id=booking_id, diver_id=diver_id)
+    booking_diver = Booking_Diver(booking_id=booking_id, diver_id=diver_id, created_by=created_by)
     db.session.add(booking_diver)
     db.session.commit()
     return booking_diver
@@ -61,18 +61,18 @@ def booking_diver_get_by_booking_and_diver(booking_id: int, diver_id: int):
     ).first()
 
 
-def booking_diver_get_or_create(booking_id: int, diver_id: int):
+def booking_diver_get_or_create(booking_id: int, diver_id: int, created_by: int):
     """Get booking diver by booking and diver or create a new booking diver"""
     booking_diver = booking_diver_get_by_booking_and_diver(booking_id, diver_id)
     if not booking_diver:
-        booking_diver = booking_diver_create(booking_id=booking_id, diver_id=diver_id)
+        booking_diver = booking_diver_create(booking_id=booking_id, diver_id=diver_id, created_by=created_by)
     return booking_diver
 
 def booking_from_data(site_id: int, date: date, name: str, email: str,created_by: int):
     """Create a new booking from data"""
-    booking = booking_get_or_create(site_id, date,created_by)
+    booking = booking_get_or_create(site_id, date)
     diver = diver_get_or_create(name, email)
-    booking_diver = booking_diver_get_or_create(booking.id, diver.id)
+    booking_diver = booking_diver_get_or_create(booking.id, diver.id,created_by)
     return booking
 
 
