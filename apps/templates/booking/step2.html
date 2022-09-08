@@ -145,7 +145,7 @@
             };
 
             $.ajax({
-                url: "{{ url_for('booking_blueprint.event') }}",
+                url: "{{ url_for('booking_blueprint.event_upload') }}",
                 type: 'POST',
                 data: JSON.stringify(localData),
                 contentType: 'application/json;charset=UTF-8',

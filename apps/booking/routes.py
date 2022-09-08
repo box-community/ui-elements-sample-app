@@ -5,10 +5,10 @@ from flask_login import current_user, login_required
 from apps.authentication.box_jwt import jwt_downscoped_access_token_get
 from apps.authentication.util import is_testing
 from apps.booking import blueprint
-from apps.booking.booking import booking_create, form_to_booking
+from apps.booking.booking import booking_create, booking_diver_create, booking_diver_get_or_create, booking_get_or_create, diver_get_or_create, form_to_booking
 from apps.booking.data_seed import data_seed
 from apps.booking.demo_folders import booking_diver_folder_get
-from apps.booking.forms import BookingSimpleForm, BookingForm
+from apps.booking.forms import BookingSimpleForm, BookingForm, DiverForm
 from apps.booking.models import Booking, Booking_Diver
 from apps.booking.template_helpers import (booking_diver_upload_process, booking_get_by_id, bookings_get_by_user,
                                            get_all_dive_sites_options)
@@ -31,16 +31,20 @@ def page_home():
         if form_booking_new.validate_on_submit():
             booking_date = form_booking_new.date.data
             booking_site = form_booking_new.site.data
-            booking = booking_create(booking_site, booking_date, current_user.id)
+            booking = booking_get_or_create(booking_site, booking_date, current_user.id)
             return redirect(url_for('booking_blueprint.page_booking', booking_id=booking.id))
     
-    return render_template('booking/home.html', title='Home',segment = 'home', dive_sites = dive_sites, form = form_booking_new)
+    return render_template('booking/home.html', avatar_url = current_user.avatar_url, title='Home',segment = 'home', dive_sites = dive_sites, form = form_booking_new)
+
+
 
 @blueprint.route("/bookings", methods=["GET", "POST"])
 @login_required
 def page_bookings(): # list user bookings
     bookings = bookings_get_by_user(current_user.id)
-    return render_template("booking/bookings.html", bookings=bookings,segment='bookings')
+    return render_template("booking/bookings.html", avatar_url = current_user.avatar_url, bookings=bookings,segment='bookings')
+
+
 
 @blueprint.route("/booking/<int:booking_id>", methods=["GET", "POST"])
 @login_required
@@ -52,58 +56,27 @@ def page_booking(booking_id): # Show booking details
         cert_folder = booking_diver_folder_get(booking_diver.id)
 
 
-    return render_template("booking/booking.html", booking=booking, token=token)
+    return render_template("booking/booking.html", avatar_url = current_user.avatar_url, booking=booking, token=token)
 
 
 
-@blueprint.route("/booking/new", methods=["GET", "POST"])
+@blueprint.route("/booking/<int:booking_id>/newdiver", methods=["GET", "POST"])
 @login_required
-def page_booking_new():
-    data_seed()
+def page_booking_new_diver(booking_id):
+    """ add a new diver to an existing bookikng"""
 
-    booking_form = BookingForm(request.form)
-    booking_form.date.default = get_date_tomorrow()
-    booking_form.site.choices = get_all_dive_sites_options()
-
+    booking = booking_get_by_id(booking_id, current_user.id)
+    form_diver = DiverForm()
 
     if request.method == "POST" or is_testing():
-        if booking_form.validate():
-            booking_new = form_to_booking(booking_form,current_user.id)
+        if form_diver.validate_on_submit():
+            diver = diver_get_or_create(form_diver.name.data, form_diver.email.data)
+            booking_diver = booking_diver_get_or_create(booking.id, diver.id)
+            return redirect(url_for('booking_blueprint.page_booking', booking_id=booking_id))
 
-            url = url_for(
-                "booking_blueprint.page_booking_upload", booking_id=booking_new.id
-            )
-            return redirect(url)
-
-    return render_template("booking/booking_new.html", form=booking_form)
+    return render_template("booking/booking_new_diver.html", avatar_url = current_user.avatar_url, booking=booking, form=form_diver)
 
 
-@blueprint.route("/booking/upload", methods=["GET", "POST"])
-@login_required
-def page_booking_upload():
-    booking_id = request.args.get("booking_id")
-    booking = Booking.query.filter_by(id=booking_id).first_or_404()
-
-    booking_diver = Booking_Diver.query.filter_by(booking_id=booking.id).first()
-
-    folder_id_cert = booking_diver_folder_get(booking_diver.id)
-    token = jwt_downscoped_access_token_get()
-    options = {
-        "container": ".uie-upload-cert",
-        "fileLimit": 1,
-        'modal': None,
-    }
-    documentType = 'CERTIFICATE'
-
-    return render_template(
-        "booking/step2.html",
-        form=None,
-        token=token,
-        folder_id=folder_id_cert,
-        options=options,
-        documentType=documentType,
-        booking_diver_id = booking_diver.id,
-    )
 
 @blueprint.route('/event/upload/', methods=['POST'])
 def event_upload():

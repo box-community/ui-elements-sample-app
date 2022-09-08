@@ -1,4 +1,5 @@
 from datetime import datetime
+import hashlib
 from apps import db
 
 class Dive_Site(db.Model):
@@ -32,8 +33,14 @@ class Diver(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(500), unique=False, nullable=False)
     email = db.Column(db.String(500), unique=True, nullable=False)
+    avatar_url = db.Column(db.String(512))
 
     def __init__(self, **kwargs):
+        email = kwargs.get('email')
+        avatar_url = kwargs.get('avatar_url')
+        if avatar_url is None:
+            avatar_url = 'https://www.gravatar.com/avatar/' + hashlib.md5(email.lower().encode('utf-8')).hexdigest() + '?d=identicon'
+            setattr(self, 'avatar_url', avatar_url)
 
         for property, value in kwargs.items():
                 # depending on whether value is an iterable or not, we must
