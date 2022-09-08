@@ -18,8 +18,8 @@ def test_booking_start(test_client, init_database,login_user):
     WHEN the home page is requested (GET)
     THEN check the response is valid
     """
-    response = test_client.get(url_home)
-    assert response.status_code == 200
+    response = test_client.get(url_home,follow_redirects=True)
+    assert response.status_code == 200 or response.status_code == 308
     assert b"Dive Into the Box" in response.data
     assert b"Booking Date" in response.data
     assert b"Test dive site 1" in response.data
@@ -37,7 +37,7 @@ def test_booking_submit(test_client, init_database,login_user):
     response = test_client.post(
         url_home,
         data=dict(date=book_date, site=1),
-        follow_redirects=False,
+        follow_redirects=True,
     )
 
     assert response.status_code == 200 or response.status_code == 302
@@ -78,10 +78,10 @@ def test_booking_submit_duplicate(test_client, init_database, new_diver_john,log
     response = test_client.post(
         url_home,
         data=dict(date=book_date, site=1),
-        follow_redirects=False,
+        follow_redirects=True,
     )
 
-    assert response.status_code == 200 or response.status_code == 302
+    assert response.status_code == 200 or response.status_code == 302 or response.status_code == 308
 
     # was booking created?
     booking = Booking.query.filter_by(date=book_date, dive_site_id=1).first()
@@ -93,10 +93,11 @@ def test_booking_submit_duplicate(test_client, init_database, new_diver_john,log
     response = test_client.post(
         url_home,
         data=dict(date=book_date, site=1),
-        follow_redirects=False,
+        follow_redirects=True,
     )
 
-    assert response.status_code == 200 or response.status_code == 302
+    assert response.status_code == 200 or response.status_code == 302 or response.status_code == 308
+
     # was booking created?
     booking_dup = Booking.query.filter_by(date=book_date, dive_site_id=1).first()
     assert booking_dup is not None
@@ -133,10 +134,11 @@ def test_booking_submit_new_diver(test_client, init_database,new_diver_john ,new
     response = test_client.post(
         url_home,
         data=dict(date=book_date, site=1),
-        follow_redirects=False,
+        follow_redirects=True,
     )
 
-    assert response.status_code == 200 or response.status_code == 302
+    assert response.status_code == 200 or response.status_code == 302 or response.status_code == 308
+
 
     # was booking created?
     booking = Booking.query.filter_by(date=book_date, dive_site_id=1).first()
@@ -150,10 +152,11 @@ def test_booking_submit_new_diver(test_client, init_database,new_diver_john ,new
     response = test_client.post(
         url_new_diver,
         data=dict(name=new_diver_jane.name, email=new_diver_jane.email),
-        follow_redirects=False,
+        follow_redirects=True,
     )
 
-    assert response.status_code == 200 or response.status_code == 302
+    assert response.status_code == 200 or response.status_code == 302 or response.status_code == 308
+
 
     # diver exists?
     diver_jane = Diver.query.filter_by(name=new_diver_jane.name, email=new_diver_jane.email).first()
@@ -162,10 +165,11 @@ def test_booking_submit_new_diver(test_client, init_database,new_diver_john ,new
     response = test_client.post(
         url_new_diver,
         data=dict(name=new_diver_john.name, email=new_diver_john.email),
-        follow_redirects=False,
+        follow_redirects=True,
     )
 
-    assert response.status_code == 200 or response.status_code == 302
+    assert response.status_code == 200 or response.status_code == 302 or response.status_code == 308
+
 
     # diver exists?
     diver_john = Diver.query.filter_by(name=new_diver_john.name, email=new_diver_john.email).first()

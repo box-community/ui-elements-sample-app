@@ -92,7 +92,7 @@
                                                 has_waiver = not (booking_diver.waiver_file_id == None )
 
                                                 %}
-                                                <div class="row m-b-10">
+                                                <div class="row p-b-10 p-t-10">
 
                                                     <!-- <div class="col-sm-1">
                                                         <img src="{{ booking_diver.diver.avatar_url }}"
@@ -102,23 +102,30 @@
                                                         <div class="lead">{{ booking_diver.diver.name }}</div>
                                                         <div class="text-muted">{{ booking_diver.diver.email }}</div>
                                                     </div>
-                                                    <div class="col-sm-1">
-                                                        <span class="feather icon-award text-primary lead"
-                                                            data-toggle="tooltip"
-                                                            title="Certification {% if has_certification %}pending review{% else %} not uploaded{% endif %}"></span>
+                                                    <div class="col-sm-4">
+                                                        <div class="row">
+                                                            <div class="col-sm-4 m-t-15">
+                                                                <span
+                                                                    class="feather icon-award lead {% if has_certification %}text-primary{% else %}text-danger{% endif %}"
+                                                                    data-toggle="tooltip"
+                                                                    title="Certification {% if has_certification %}pending review{% else %} not uploaded{% endif %}"></span>
+                                                            </div>
+                                                            <div class="col-sm-4 m-t-15">
+                                                                <span
+                                                                    class="feather icon-shield lead {% if has_insurance %}text-primary{% else %}text-danger{% endif %}"
+                                                                    data-toggle="tooltip"
+                                                                    title="Insurance {% if has_insurance %}pending review{% else %} not uploaded{% endif %}"></span>
+                                                            </div>
+                                                            <div class="col-sm-4 m-t-15">
+                                                                <span
+                                                                    class="feather icon-paperclip lead {% if has_waiver %}text-primary{% else %}text-danger{% endif %}"
+                                                                    data-toggle="tooltip"
+                                                                    title="Waiver {% if has_waiver %}pending signature{% else %}not sent{% endif %}"></span>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class=" col-sm-1">
-                                                        <span class="feather icon-shield text-success lead"
-                                                            data-toggle="tooltip"
-                                                            title="Insurance {% if has_insurance %}pending review{% else %} not uploaded{% endif %}"></span>
-                                                    </div>
-                                                    <div class="col-sm-1">
-                                                        <span class="feather icon-paperclip text-info lead"
-                                                            data-toggle="tooltip"
-                                                            title="Waiver {% if has_waiver %}pending signature{% else %}signed{% endif %}"></span>
-                                                    </div>
-
                                                 </div>
+
                                                 {% endwith %}
                                                 {% endfor %}
                                             </div>

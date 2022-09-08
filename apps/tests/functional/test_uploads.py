@@ -69,10 +69,11 @@ def test_booking_details(
     booking = Booking.query.order_by(Booking.id.desc()).first()
     response = test_client.get(
         "/booking/"+str(booking.id),
-        follow_redirects=False,
+        follow_redirects=True,
     )
 
-    assert response.status_code == 200
+    assert response.status_code == 200  or response.status_code == 308
+
     assert b"Certification" in response.data
 
     assert b"Insurance" in response.data
