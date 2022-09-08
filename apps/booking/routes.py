@@ -47,7 +47,7 @@ def page_bookings(): # list user bookings
 
 
 
-@blueprint.route("/booking/<int:booking_id>", methods=["GET", "POST"])
+@blueprint.route("/booking/<int:booking_id>/", methods=["GET", "POST"])
 @login_required
 def page_booking(booking_id): # Show booking details
     booking = booking_get_by_id(booking_id, current_user.id)
