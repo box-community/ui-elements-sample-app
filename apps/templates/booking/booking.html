@@ -122,7 +122,12 @@
                                                     <h5>Waiver</h5>
                                                 </div>
                                                 <div class="card-block border">
-                                                    this is where the wiaver goes
+                                                    {% if booking_diver.waiver_file_id %}
+                                                    {% with documentType = 'WAIVER' ,file_id =
+                                                    booking_diver.waiver_file_id %}
+                                                    {% include 'booking/previewer_single_file.html' %}
+                                                    {% endwith %}
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>

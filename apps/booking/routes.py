@@ -53,10 +53,6 @@ def page_booking(booking_id): # Show booking details
     booking = booking_get_by_id(booking_id, current_user.id)
     token = jwt_downscoped_access_token_get()
     
-    for booking_diver in booking.booking_divers:
-        cert_folder = booking_diver_folder_get(booking_diver.id)
-
-
     return render_template("booking/booking.html", avatar_url = current_user.avatar_url, booking=booking, token=token)
 
 
