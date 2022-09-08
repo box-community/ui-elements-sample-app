@@ -39,7 +39,7 @@ def page_home():
 
 
 
-@blueprint.route("/bookings", methods=["GET", "POST"])
+@blueprint.route("/bookings/", methods=["GET", "POST"])
 @login_required
 def page_bookings(): # list user bookings
     bookings = bookings_get_by_user(current_user.id)

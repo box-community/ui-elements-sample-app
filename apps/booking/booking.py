@@ -103,7 +103,12 @@ def booking_diver_trigger_task_certification(booking_diver_id: int):
             if entry is not None:
                 task = task_item
 
-    due_date = datetime.combine(booking.date, datetime.min.time())
+    due_date = booking.date
+
+    if due_date <= datetime.now().date():
+        due_date = datetime.now() + timedelta(days=1)
+
+    due_date = datetime.combine(due_date, datetime.min.time())
     
     users = client.users(user_type='managed')
     barduino = None
@@ -145,7 +150,12 @@ def booking_diver_trigger_task_insurance(booking_diver_id: int):
             if entry is not None:
                 task = task_item
 
-    due_date = datetime.combine(booking.date, datetime.min.time())
+    due_date = booking.date
+
+    if due_date <= datetime.now().date():
+        due_date = datetime.now() + timedelta(days=1)
+
+    due_date = datetime.combine(due_date, datetime.min.time())
     
     users = client.users(user_type='managed')
     barduino = None
@@ -189,7 +199,12 @@ def booking_diver_trigger_task_waiver(booking_diver_id: int):
             if entry is not None:
                 task = task_item
 
-    due_date = datetime.combine(booking.date, datetime.min.time())
+    due_date = booking.date
+
+    if due_date <= datetime.now().date():
+        due_date = datetime.now() + timedelta(days=1)
+
+    due_date = datetime.combine(due_date, datetime.min.time())
     
     users = client.users(user_type='managed')
     barduino = None
