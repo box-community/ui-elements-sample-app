@@ -106,6 +106,11 @@ def page_icon_feather():
     print(f"***********************  Method: {request.method}")
     return render_template("home/icon-feather.html")   
 
+@blueprint.route("/bc_typography", methods=["GET", "POST"])
+def page_bc_typography():
+    print(f"***********************  Method: {request.method}")
+    return render_template("home/bc_typography.html")   
+
 
 @blueprint.errorhandler(403)
 def access_forbidden(error):

@@ -70,7 +70,7 @@
                                                         <h5>{{ booking.date }}</h5>
                                                         <h6>{{ booking.dive_site.name }}</h6>
                                                     </div>
-                                                    
+
                                                     <div class="col-auto">
 
                                                         <a class="label theme-bg2 text-white f-14 f-w-400 float-right"
@@ -81,16 +81,46 @@
                                             </div>
                                             <div class="">
                                                 <img src="{{ config.ASSETS_ROOT }}{{ booking.dive_site.picture_url}}"
-                                                    style="width:100%" alt="Picture of {{ booking.dive_site.name }} underwater">
+                                                    style="width:100%"
+                                                    alt="Picture of {{ booking.dive_site.name }} underwater">
                                             </div>
                                             <div class="card-body">
-                                                <ul>
-                                                    {% for booking_diver in booking.booking_divers %}
-                                                    <li>
-                                                        {{ booking_diver.diver.name }} ({{ booking_diver.diver.email }})
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
+                                                {% for booking_diver in booking.booking_divers %}
+                                                {% with
+                                                has_certification = not (booking_diver.certification_file_id == None ) ,
+                                                has_insurance = not (booking_diver.insurance_file_id == None ),
+                                                has_waiver = not (booking_diver.waiver_file_id == None )
+
+                                                %}
+                                                <div class="row m-b-10">
+
+                                                    <!-- <div class="col-sm-1">
+                                                        <img src="{{ booking_diver.diver.avatar_url }}"
+                                                            class="img-radius img-fluid"  alt="">
+                                                    </div> -->
+                                                    <div class="col-sm-8">
+                                                        <span class="lead">{{ booking_diver.diver.name }}</span>
+                                                        <span class="text-muted">{{ booking_diver.diver.email }}</span>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <span class="feather icon-award text-primary lead"
+                                                            data-toggle="tooltip"
+                                                            title="Certification {% if has_certification %}pending review{% else %} not uploaded{% endif %}"></span>
+                                                    </div>
+                                                    <div class=" col-sm-1">
+                                                        <span class="feather icon-shield text-success lead"
+                                                            data-toggle="tooltip"
+                                                            title="Insurance {% if has_insurance %}pending review{% else %} not uploaded{% endif %}"></span>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <span class="feather icon-paperclip text-info lead"
+                                                            data-toggle="tooltip"
+                                                            title="Waiver {% if has_waiver %}pending signature{% else %}signed{% endif %}"></span>
+                                                    </div>
+
+                                                </div>
+                                                {% endwith %}
+                                                {% endfor %}
                                             </div>
                                         </div>
                                     </div>
