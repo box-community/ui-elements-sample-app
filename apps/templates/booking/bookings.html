@@ -62,7 +62,7 @@
 
                                 <div class="row">
                                     {% for booking in bookings %}
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <div class="card card-event">
                                             <div class="card-header">
                                                 <div class="row align-items-center justify-content-center">
@@ -70,6 +70,7 @@
                                                         <h5>{{ booking.date }}</h5>
                                                         <h6>{{ booking.dive_site.name }}</h6>
                                                     </div>
+                                                    
                                                     <div class="col-auto">
 
                                                         <a class="label theme-bg2 text-white f-14 f-w-400 float-right"
@@ -77,6 +78,10 @@
 
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="">
+                                                <img src="{{ config.ASSETS_ROOT }}{{ booking.dive_site.picture_url}}"
+                                                    style="width:100%" alt="Picture of {{ booking.dive_site.name }} underwater">
                                             </div>
                                             <div class="card-body">
                                                 <ul>

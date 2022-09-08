@@ -24,6 +24,7 @@
                             <div class="col-md-12">
                                 <div class="page-header-title">
                                     <!-- <h5 class="m-b-10">Booking a Dive</h5> -->
+                                    
                                 </div>
                                 <!-- <ul class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
@@ -47,8 +48,13 @@
                                                 <h5>{{ booking.date }}</h5>
                                                 <h6 class="m-0 text-muted">{{ booking.dive_site.name }}</h6>
                                             </div>
+                                            <div class="col">
+                                                
+                                            </div>
                                             <div class="col-auto">
-                                                <a class="label theme-bg2 text-white f-14 f-w-400 float-right" href="{{url_for('booking_blueprint.page_booking_new_diver',booking_id=booking.id)}}">New Diver</a>
+                                                <a class="label theme-bg2 text-white f-14 f-w-400 float-right"
+                                                    href="{{url_for('booking_blueprint.page_booking_new_diver',booking_id=booking.id)}}">New
+                                                    Diver</a>
                                             </div>
                                         </div>
                                     </div>
@@ -72,7 +78,8 @@
                                                 <h6 class="m-0 text-muted">{{ booking_diver.diver.email }}</h6>
                                             </div>
                                             <div class="col-auto">
-                                                <img src = "{{ booking_diver.diver.avatar_url }}" class="img-radius img-fluid" style="height: 40px;" alt="">
+                                                <img src="{{ booking_diver.diver.avatar_url }}"
+                                                    class="img-radius img-fluid" style="height: 40px;" alt="">
                                                 <!-- <label class="label theme-bg2 text-white f-14 f-w-400 float-right">
                                                     Edit
                                                 </label> -->
