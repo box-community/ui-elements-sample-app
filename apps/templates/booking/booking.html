@@ -82,10 +82,10 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-sm-4">
-                                                <div class="card-block m-0 border-top border-left border-right">
-                                                    <h5>Certification</h5>
+                                                <div class="p-10 border-bottom">
+                                                    <h6 class="m-0">Certification</h6>
                                                 </div>
-                                                <div class="border">
+                                                <div class="">
                                                     {% if booking_diver.certification_file_id %}
                                                     {% with documentType = 'CERTIFICATE' ,file_id =
                                                     booking_diver.certification_file_id %}
@@ -100,10 +100,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
-                                                <div class="card-block m-0 border-top border-left border-right">
-                                                    <h5>Insurance</h5>
+                                                <div class="p-10 border-bottom">
+                                                    <h6 class="m-0">Insurance</h6>
                                                 </div>
-                                                <div class="border">
+                                                <div class="">
                                                     {% if booking_diver.insurance_file_id %}
                                                     {% with documentType = 'INSURANCE' ,file_id =
                                                     booking_diver.insurance_file_id %}
@@ -118,10 +118,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
-                                                <div class="card-block m-0 border-top border-left border-right">
-                                                    <h5>Waiver</h5>
+                                                <div class="p-10 border-bottom">
+                                                    <h6 class="m-0"></h6>Waiver</h6>
                                                 </div>
-                                                <div class="card-block border">
+                                                <div class="">
                                                     {% if booking_diver.waiver_file_id %}
                                                     {% with documentType = 'WAIVER' ,file_id =
                                                     booking_diver.waiver_file_id %}
