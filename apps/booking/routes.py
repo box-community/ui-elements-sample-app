@@ -16,7 +16,7 @@ from apps.booking.utils import get_all_dive_sites, get_date_tomorrow
 from apps.booking.waiver import booking_diver_waiver_sign
 
 @blueprint.route('/')
-@blueprint.route('/home', methods=["GET", "POST"])
+@blueprint.route('/home/', methods=["GET", "POST"])
 @login_required
 def page_home():
     """
