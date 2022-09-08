@@ -13,6 +13,7 @@ from apps.booking.models import Booking, Booking_Diver
 from apps.booking.template_helpers import (booking_diver_upload_process, booking_get_by_id, bookings_get_by_user,
                                            get_all_dive_sites_options)
 from apps.booking.utils import get_all_dive_sites, get_date_tomorrow
+from apps.booking.waiver import booking_diver_waiver_sign
 
 @blueprint.route('/')
 @blueprint.route('/home', methods=["GET", "POST"])
@@ -72,6 +73,7 @@ def page_booking_new_diver(booking_id):
         if form_diver.validate_on_submit():
             diver = diver_get_or_create(form_diver.name.data, form_diver.email.data)
             booking_diver = booking_diver_get_or_create(booking.id, diver.id, current_user.id)
+            sign_request = booking_diver_waiver_sign(booking_diver.id)
             return redirect(url_for('booking_blueprint.page_booking', booking_id=booking_id))
 
     return render_template("booking/booking_new_diver.html", avatar_url = current_user.avatar_url, booking=booking, form=form_diver)

@@ -1,6 +1,7 @@
 from pydoc import cli
 from apps.authentication.box_jwt import jwt_check_client
-from apps.booking.booking import booking_diver_trigger_task_waiver
+from apps.booking.booking import booking_diver_get_or_create, booking_diver_trigger_task_waiver
+from apps.booking.demo_folders import booking_diver_folder_create
 from apps.booking.models import Booking, Booking_Diver, Diver
 from apps import Config, db
 
@@ -12,6 +13,13 @@ def booking_diver_waiver_sign(booking_diver_id: int) -> dict:
     template_id   = Config.SIGN_TEMPLATE_ID
     
     booking_diver = Booking_Diver.query.filter_by(id=booking_diver_id).first()
+
+    if not booking_diver.folder_id:
+        folder_id = booking_diver_folder_create(booking_diver_id)
+    else:
+        folder_id = booking_diver.folder_id
+
+
     diver = Diver.query.filter_by(id=booking_diver.diver_id).first()
     bd_id = booking_diver.id
 
@@ -34,7 +42,7 @@ def booking_diver_waiver_sign(booking_diver_id: int) -> dict:
     sign_request = client.create_sign_request(
         files = [file_to_sign],
         signers = [signer],
-        parent_folder_id = booking_diver.folder_id,
+        parent_folder_id = folder_id,
         external_id = str(booking_diver.id),
         email_subject = 'Box Dive Waiver Sign Request for '+diver.name,
         email_message = 'Please sign this document by clicking the review document button above.<br><br>Kind regards,<br><br>Box Dive',

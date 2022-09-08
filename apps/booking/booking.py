@@ -3,6 +3,7 @@ from apps import db
 from apps.authentication.box_jwt import jwt_check_client
 from apps.booking.forms import BookingForm
 from apps.booking.models import Booking, Booking_Diver, Diver
+from apps.booking.demo_folders import booking_diver_folder_create
 from boxsdk import BoxAPIException
 
 def booking_create(dive_site_id: int, date: date):
@@ -51,6 +52,7 @@ def booking_diver_create(booking_id: int, diver_id: int, created_by: int):
     booking_diver = Booking_Diver(booking_id=booking_id, diver_id=diver_id, created_by=created_by)
     db.session.add(booking_diver)
     db.session.commit()
+    booking_diver_folder_create(booking_diver.id)
     return booking_diver
 
 
