@@ -90,10 +90,10 @@ def jwt_downscoped_access_token_get()->str:
     Get the downscoped access token for the jwt app user
     """
  
-    scope = ['base_explorer', 'item_preview', 'item_download', 'item_rename', 'item_share', 'item_delete',
-             'base_picker', 'item_upload', # , 'item_share'
-             'base_preview', 'annotation_edit', 'annotation_view_all', 'annotation_view_self', #, 'item_download'
-             'base_sidebar', 'item_comment', #'item_task', # , 'item_rename', 'item_upload'
+    scope = ['base_explorer', 'item_preview', #'item_download', 'item_rename', 'item_share', 'item_delete',
+             'base_picker', #'item_upload', # , 'item_share'
+             #'base_preview', 'annotation_edit', 'annotation_view_all', 'annotation_view_self', #, 'item_download'
+             #'base_sidebar', 'item_comment', #'item_task', # , 'item_rename', 'item_upload'
              'base_upload'
              ]
     client = jwt_check_client()
