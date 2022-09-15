@@ -5,8 +5,8 @@
 
 > Get the code
 ```bash
-git clone git@github.com:barduinor/ui-elements-jwt.git
-cd ui-elements-jwt
+git clone git@github.com:barduinor/ui-elements-sample-app.git
+cd ui-elements-sample-app
 ```
 
 > Set up your virtual environment
@@ -45,14 +45,9 @@ FERNET_KEY='YOU_ENCRYPTION_KEY'
 # Box JWT
 JWT_EXPIRATION_SECONDS = 3300
 
-# Box JWT Manual config (optional if using the config.json file)
-
-JWT_CLIENT_ID       = "YOUR_CLIENT_ID"
-JWT_CLIENT_SECRET   = "YOUR_CLIENT_SECRET"
-JWT_PUBLIC_KEY_ID   = "YOUR_PUBLIC_KEY_ID"
-JWT_PRIVATE_KEY     = "YOUR_ENCRYPTED_PRIVATE_KEY_PEM_FORMAT (\n for new line)"
-JWT_PASSPHRASE      = "YOUR_PRIVATE_KEY_PASS_PHRASE"
-JWT_ENTERPRISE_ID   = "YOUR_ENTERPRISE_ID"
+#Sample App Configuration
+DEMO_FOLDER_NAME='Bookings'
+SIGN_TEMPLATE_ID = 'YOUR DOCUMENT SIGN TEMPLATE ID'
 ```
 
 > JWT Configuration usgin the config.json file
@@ -73,15 +68,9 @@ JWT_ENTERPRISE_ID   = "YOUR_ENTERPRISE_ID"
   }
 ```
 
-> JWT Manual Configuration.
-
-Copy your encrypted private key to .private.key.
-
 > Run your server
 ```bash
 flask run
 ```
 
 > Point your browser to the server (e.g http://127.0.0.1:5000).
-> Inspect your browser console to see the javascript events.
-> Server events will be printed on the terminal.
