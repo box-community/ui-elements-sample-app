@@ -1,5 +1,5 @@
 # UI Elements Sample App
-> This is the companion app to illustrate [this medium article](https://medium.com/@barbosa-rmv/getting-started-with-box-oauth-2-0-using-python-flask-77607441170d). Check it out.
+> This is the companion app to illustrate [this medium article](https://medium.com/box-developer-blog/dive-into-the-box-platform-94ced33c2c86). Check it out.
 
 ## Installation
 
