@@ -108,19 +108,19 @@
                                                                 <span
                                                                     class="feather icon-award lead {% if has_certification %}text-primary{% else %}text-danger{% endif %}"
                                                                     data-toggle="tooltip"
-                                                                    title="Certification {% if has_certification %}pending review{% else %} not uploaded{% endif %}"></span>
+                                                                    title="Certification {{ booking_diver.certification_status }}"></span>
                                                             </div>
                                                             <div class="col-sm-4 m-t-15">
                                                                 <span
                                                                     class="feather icon-shield lead {% if has_insurance %}text-primary{% else %}text-danger{% endif %}"
                                                                     data-toggle="tooltip"
-                                                                    title="Insurance {% if has_insurance %}pending review{% else %} not uploaded{% endif %}"></span>
+                                                                    title="Insurance {{ booking_diver.insurance_status }}"></span>
                                                             </div>
                                                             <div class="col-sm-4 m-t-15">
                                                                 <span
                                                                     class="feather icon-paperclip lead {% if has_waiver %}text-primary{% else %}text-danger{% endif %}"
                                                                     data-toggle="tooltip"
-                                                                    title="Waiver {% if has_waiver %}pending signature{% else %}not sent{% endif %}"></span>
+                                                                    title="Waiver {{ booking_diver.waiver_status }}"></span>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -130,7 +130,8 @@ def booking_diver_trigger_task_certification(booking_diver_id: int):
     # TODO: If the task assignment already exists then do not duplicate the assignment
     assignment = client.task(task_id = task.id).assign(barduino)
 
-    booking_diver.certification_task_id = task.id
+    booking_diver.certification_task_id = assignment.id
+    booking_diver.certification_status = assignment.status
     
     db.session.commit()
 
@@ -178,7 +179,8 @@ def booking_diver_trigger_task_insurance(booking_diver_id: int):
     # TODO: If the task assignment already exists then do not duplicate the assignment
     assignment = client.task(task_id = task.id).assign(barduino)
 
-    booking_diver.insurance_task_id = task.id
+    booking_diver.insurance_task_id = assignment.id
+    booking_diver.insurance_status = assignment.status
     
     db.session.commit()
 
@@ -225,7 +227,8 @@ def booking_diver_trigger_task_waiver(booking_diver_id: int):
     # TODO: If the task assignment already exists then do not duplicate the assignment
     assignment = client.task(task_id = task.id).assign(barduino)
 
-    booking_diver.waiver_task_id = task.id
+    booking_diver.waiver_task_id = assignment.id
+    booking_diver.waiver_status = assignment.status
     
     db.session.commit()
 

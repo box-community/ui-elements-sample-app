@@ -42,6 +42,10 @@ class Config(object):
     CACHE_TYPE = 'FileSystemCache'
     CACHE_DEFAULT_TIMEOUT = JWT_EXPIRATION_SECONDS
 
+    #Webhook keys
+    WH_KEY_A = os.getenv('WH_KEY_A','your webhook primary key')
+    WH_KEY_B = os.getenv('WH_KEY_B','your webhook secondary key')
+
     
 class ProductionConfig(Config):
     DEBUG = False

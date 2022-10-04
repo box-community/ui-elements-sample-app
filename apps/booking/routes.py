@@ -14,6 +14,7 @@ from apps.booking.template_helpers import (booking_diver_upload_process, booking
                                            get_all_dive_sites_options)
 from apps.booking.utils import get_all_dive_sites, get_date_tomorrow
 from apps.booking.waiver import booking_diver_waiver_sign
+from apps.booking.box_webhooks import webhook_process_request, webhook_signature_check
 
 @blueprint.route('/')
 @blueprint.route('/home/', methods=["GET", "POST"])
@@ -81,10 +82,37 @@ def event_upload():
     request_data = request.get_json()
     if not booking_diver_upload_process(request_data):
         return json.dumps({'success':False,'message':'Invalid request'}), 400, {'ContentType':'application/json'} 
-        
+    
+    
+
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
     
     
+@blueprint.route('/event/webhook/', methods=['GET','POST'])
+def event_webhook():
+
+    request_body = request.data
+    request_headers = request.headers
+    request_data = request.get_json()
+    webhook_id = request_data['webhook']['id']
+    webhook_trigger = request_data['trigger']
+
+    is_valid = webhook_signature_check(webhook_id, request_body, request_headers)
+
+    print("#############################################################################################################")
+    print(f"Webhook {webhook_id}:{webhook_trigger} with is_valid: {is_valid}")
+    print("----------------------------------------")
+    print(f"JSON: {request_data}")
+    print("----------------------------------------")
+
+    if not is_valid:
+        return json.dumps({'success':False,'message':'Invalid request'}), 400, {'ContentType':'application/json'}
+
+
+    webhook_process_request(request_data)
+
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+
 
 @blueprint.route("/form_elements", methods=["GET", "POST"])
 def page_test():

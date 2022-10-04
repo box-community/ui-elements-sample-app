@@ -136,3 +136,4 @@ dmypy.json
 
 app.ini
 wsgi.py
+.note.json

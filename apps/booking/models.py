@@ -91,12 +91,15 @@ class Booking_Diver(db.Model):
     
     certification_file_id = db.Column(db.String(50), unique=False, nullable=True)
     certification_task_id = db.Column(db.String(50), unique=False, nullable=True)
+    certification_status = db.Column(db.String(50), unique=False, nullable=True)
     
     insurance_file_id = db.Column(db.String(50), unique=False, nullable=True)
     insurance_task_id = db.Column(db.String(50), unique=False, nullable=True)
+    insurance_status = db.Column(db.String(50), unique=False, nullable=True)
     
     waiver_file_id = db.Column(db.String(50), unique=False, nullable=True)
     waiver_task_id = db.Column(db.String(50), unique=False, nullable=True)
+    waiver_status = db.Column(db.String(50), unique=False, nullable=True)
 
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
     created_by = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=True)
