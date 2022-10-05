@@ -108,8 +108,11 @@ def event_webhook():
     if not is_valid:
         return json.dumps({'success':False,'message':'Invalid request'}), 400, {'ContentType':'application/json'}
 
-
-    webhook_process_request(request_data)
+    try:
+        webhook_process_request(request_data)
+    except Exception as e:
+        print(f"Error processing webhook: {e}")
+        return json.dumps({'success':False,'message':'Internal error'}), 500, {'ContentType':'application/json'}
 
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 

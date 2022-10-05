@@ -87,9 +87,24 @@
                                             <div class="card-body">
                                                 {% for booking_diver in booking.booking_divers %}
                                                 {% with
-                                                has_certification = not (booking_diver.certification_file_id == None ) ,
-                                                has_insurance = not (booking_diver.insurance_file_id == None ),
-                                                has_waiver = not (booking_diver.waiver_file_id == None )
+
+                                                cert_red = (booking_diver.certification_status == None or
+                                                booking_diver.certification_status == 'REJECTED'),
+                                                cert_yellow = (booking_diver.certification_status == 'incomplete'),
+                                                cert_green = (booking_diver.certification_status == 'APPROVED'),
+
+                                                ins_red = (booking_diver.insurance_status == None or
+                                                booking_diver.insurance_status == 'REJECTED'),
+                                                ins_yellow = (booking_diver.insurance_status == 'incomplete'),
+                                                ins_green = (booking_diver.insurance_status == 'APPROVED'),
+
+                                                sign_red = (booking_diver.waiver_status == None or
+                                                booking_diver.waiver_status == 'DECLINED' or
+                                                booking_diver.waiver_status == 'EXPIRED' or
+                                                booking_diver.waiver_status == 'REJECTED'),
+                                                sign_yellow = (booking_diver.waiver_status == 'incomplete'),
+                                                sign_green = (booking_diver.waiver_status == 'COMPLETED' or
+                                                booking_diver.waiver_status == 'APPROVED')
 
                                                 %}
                                                 <div class="row p-b-10 p-t-10">
@@ -106,19 +121,19 @@
                                                         <div class="row">
                                                             <div class="col-sm-4 m-t-15">
                                                                 <span
-                                                                    class="feather icon-award lead {% if has_certification %}text-primary{% else %}text-danger{% endif %}"
+                                                                    class="feather icon-award lead {% if cert_red %}text-danger{% elif cert_yellow %}text-warning{% elif cert_green%}text-success{% else %}text-info{% endif %}"
                                                                     data-toggle="tooltip"
                                                                     title="Certification {{ booking_diver.certification_status }}"></span>
                                                             </div>
                                                             <div class="col-sm-4 m-t-15">
                                                                 <span
-                                                                    class="feather icon-shield lead {% if has_insurance %}text-primary{% else %}text-danger{% endif %}"
+                                                                    class="feather icon-shield lead {% if ins_red %}text-danger{% elif ins_yellow %}text-warning{% elif ins_green%}text-success{% else %}tex-info{% endif %}"
                                                                     data-toggle="tooltip"
                                                                     title="Insurance {{ booking_diver.insurance_status }}"></span>
                                                             </div>
                                                             <div class="col-sm-4 m-t-15">
                                                                 <span
-                                                                    class="feather icon-paperclip lead {% if has_waiver %}text-primary{% else %}text-danger{% endif %}"
+                                                                    class="feather icon-edit-1 lead {% if sign_red %}text-danger{% elif sign_yellow %}text-warning{% elif sign_green%}text-success{% else %}tex-info{% endif %}"
                                                                     data-toggle="tooltip"
                                                                     title="Waiver {{ booking_diver.waiver_status }}"></span>
                                                             </div>
