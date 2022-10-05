@@ -88,7 +88,7 @@ def event_upload():
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
     
     
-@blueprint.route('/event/webhook/', methods=['GET','POST'])
+@blueprint.route('/event/webhook/', methods=['POST'])
 def event_webhook():
 
     request_body = request.data

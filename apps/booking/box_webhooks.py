@@ -55,21 +55,21 @@ def webhook_process_task(webhook_source: dict):
     booking_divers_cert = Booking_Diver.query.filter_by(
         certification_file_id=file_id
     ).first()
-    # print(booking_divers_cert.certification_task_id )
+
     if booking_divers_cert is not None:
         booking_divers_cert.certification_status = resolution_state
 
     booking_divers_ins = Booking_Diver.query.filter_by(
         insurance_file_id=file_id
     ).first()
-    # print(booking_divers_ins.insurance_task_id )
+
     if booking_divers_ins is not None:
         booking_divers_ins.insurance_status = resolution_state
 
     booking_divers_waiver = Booking_Diver.query.filter_by(
         waiver_file_id=file_id
     ).first()
-    # print(booking_divers_waiver.waiver_task_id )
+
     if booking_divers_waiver is not None:
         booking_divers_waiver.waiver_status = resolution_state
 
