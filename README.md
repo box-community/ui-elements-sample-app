@@ -8,6 +8,8 @@ width=40%;>
 
 ## Installation
 
+You will need to have python installed on your machine.
+
 > Get the code
 ```bash
 git clone git@github.com:barduinor/ui-elements-sample-app.git
