@@ -4,9 +4,25 @@ style="margin-left:-10px;"
 width=40%;>
 
 # UI Elements Sample App
-> This is the companion app to illustrate [this medium article](https://medium.com/box-developer-blog/dive-into-the-box-platform-94ced33c2c86). Check it out.
+This is the companion app to illustrate [this medium article](https://medium.com/box-developer-blog/dive-into-the-box-platform-94ced33c2c86). This is a custom portal using Flask and Python to create an example Diver Portal. It uses Box Sign, Box Tasks, and other Box Platform features. Check it out.
 
-## Installation
+These instructions show using a Box JWT application and service account. You may also use OAuth 2.0 or Client Credentials, but the setup steps will differ.
+
+## Box configuration steps
+
+ It is recommended that you setup this tutorial up in a Sandbox environment, as you will need admin privileges. Find more about sandboxes [here](https://support.box.com/hc/en-us/articles/360043697274-Managing-developer-sandboxes-for-Box-admins).
+
+1. In the Box Admin Console, [confirm Box Sign](https://support.box.com/hc/en-us/articles/4404076971155-Configuring-Box-Sign-Enablement-Settings) is enabled for your enterprise.
+2. In the Box Sign section of the main Box Web App, [setup a Box Sign Template](https://support.box.com/hc/en-us/articles/4404094944915-Creating-using-and-sharing-templates) using this [waiver example](https://cloud.box.com/s/kzoulzp51qjektsetshbqo9aw67alp3v).
+3. Create a new application in the [Box Developer Console](https://app.box.com/developers/console). Click Create new app > Custom App > Server Authentication(with JWT) > Click Create App.
+4. Under the configuration tab, select App + Enterprise, followed by checking the boxes for Read/Write all files and manage sign requests. Then, click Save Changes in the top right.
+5. Towards the bottom, generate a new public/private keypair. This will automatically start a download of the JWT config file you will use later. 
+6. Copy the client id of the application. Back in the Box Admin Console, follow the steps to [approve a custom application](https://developer.box.com/guides/authorization/custom-app-approval/).
+7. Back on the General Settings tab of the application you created in the Box Developer Console, you should now see an email that starts like AutomationUser_... in the Service Account Info section. Copy that email. Back in the main Box Web App, collaborate the service account into the sign template you created in step 2. Templates are stored under the All Files page folder called My Sign Requests by default. You should see a pdf version of the word file, and when you open it, also make note of the the file id for later.
+
+## Installation and configuration
+
+You will need to have [python](https://www.python.org/downloads/) installed on your machine. 
 
 > Get the code
 ```bash
@@ -21,57 +37,37 @@ source ./venv/bin/activate
 pip install -r requirements.txt
 ```
 
-> Create your application environment
+> Create your local application environment file
 ```bash
-cp .env.example .env
+cp .env.sample .env
+```
+
+> Open the code in the code editor of your choice. For example, if you have the appropriate extension installed for VS Code, you can use the below to open the repository. 
+```
+code .
 ```
 
 > Generate a secret key for your app
 ```bash
 python -c "import os; print(os.urandom(24).hex())"
 ```
+> Copy and paste the value in the secret key field in the env file. 
 
 > Generate a fernet (encryption) key for your app
 ```bash
-python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key()"
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key())"
 ```
+> Copy and paste the value in the fernet key field in the env file. You only the need the value within the single quotes.
 
-> Edit your .env file and fill in the information
-```
-# True for development, False for production
-DEBUG=True
+> Drag in the config.json file downloaded after creating your application in an earlier step. Rename it `.config.json`.
 
-# Flask ENV
-FLASK_APP=run.py
-FLASK_ENV=development
-SECRET_KEY='YOUR_SECRET_KEY'
-FERNET_KEY='YOU_ENCRYPTION_KEY'
+> Update the SIGN_ADMIN field value in the env file with the Box login you wish to assign tasks to. You will want this to be an account that can login to the main Box Web App. 
 
-# Box JWT
-JWT_EXPIRATION_SECONDS = 3300
+> Update the DEMO_FOLDER_NAME field value in the env file to be the name you wish the bookings to be created under. You can leave the default if you wish. This folder will get created the first time you create a booking or use a UI element.
 
-#Sample App Configuration
-DEMO_FOLDER_NAME='Bookings'
-SIGN_TEMPLATE_ID = 'YOUR DOCUMENT SIGN TEMPLATE ID'
-```
+> Update the SIGN_TEMPLATE_ID field value in the env file to be the file id of the sign template you created earlier. You can find the file id by opening the file from the sign request folder and copying the id from the url bar.
 
-> JWT Configuration usgin the config.json file
-> Edit/copy your config.json to .config.json.
-> (get the file from you development console when you configure the application)
-```
-{
-    "boxAppSettings": {
-      "clientID": "YOUR_CLIENT_ID",
-      "clientSecret": "YOUR_CLIENT_SECRET",
-      "appAuth": {
-        "publicKeyID": "YOUR_PUBLIC_KEY_ID",
-        "privateKey": "-----BEGIN ENCRYPTED PRIVATE KEY-----\n-----END ENCRYPTED PRIVATE KEY-----\n",
-        "passphrase": "YOUR_PASSPHRASE"
-      }
-    },
-    "enterpriseID": "YOUR_ENTERPRISE_ID",
-  }
-```
+## Run the application 
 
 > Run your server
 ```bash
@@ -79,3 +75,20 @@ flask run
 ```
 
 > Point your browser to the server (e.g http://127.0.0.1:5000).
+
+Sign up for an account, and then, login using those credntials. Visit the UI Element explorer or content picker to view/create the bookings folder.
+
+In the Box Admin Console, go to the content tab and find the Bookings folder under the application's service account. Collaborate the sign admin's email into the bookings folder. This will allow that user to see the tasks assigned.
+
+Try creating a booking. You should see a waiver automatically get created based on the template id and a Box Sign request emailed to the Diver Portal email you created.
+
+You can sign the waiver and upload a insurance card and drivers license. 
+
+If you login to the sign admin's Box account, you should see tasks appear in the upper right corner. 
+
+## Webhooks
+
+This repo is also used for [another part](https://medium.com/box-developer-blog/hooked-on-the-box-platform-9264a0efb0a) of the blog series on webhooks. This readme will not show how to set up that piece, due to the complexities around hosting, but running the code will create webhook endpoints you could expose publically from your local machine. They could then be used to run the task completion code shown in the subsequent blog.
+
+### Questions
+If you get stuck or have questions, make sure to ask on our [Box Developer Forum](https://support.box.com/hc/en-us/community/topics/360001932973-Platform-and-Developer-Forum)
