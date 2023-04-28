@@ -5,6 +5,7 @@ from apps.booking.forms import BookingForm
 from apps.booking.models import Booking, Booking_Diver, Diver
 from apps.booking.demo_folders import booking_diver_folder_create
 from boxsdk import BoxAPIException
+from apps import Config
 
 def booking_create(dive_site_id: int, date: date):
     """Create a new booking"""
@@ -111,11 +112,11 @@ def booking_diver_trigger_task_certification(booking_diver_id: int):
     due_date = datetime.combine(due_date, datetime.min.time())
     
     users = client.users(user_type='managed')
-    barduino = None
+    signAdmin = None
     for user in users:
         print(f'{user.name} (User ID: {user.id})')
-        if user.login == 'barduinor@gmail.com': 
-            barduino = user
+        if user.login == Config.SIGN_ADMIN: 
+            signAdmin = user
             break
         
     task = None
@@ -128,7 +129,7 @@ def booking_diver_trigger_task_certification(booking_diver_id: int):
         )
 
     # TODO: If the task assignment already exists then do not duplicate the assignment
-    assignment = client.task(task_id = task.id).assign(barduino)
+    assignment = client.task(task_id = task.id).assign(signAdmin)
 
     booking_diver.certification_task_id = assignment.id
     booking_diver.certification_status = assignment.status
@@ -159,12 +160,12 @@ def booking_diver_trigger_task_insurance(booking_diver_id: int):
     due_date = datetime.combine(due_date, datetime.min.time())
     
     users = client.users(user_type='managed')
-    barduino = None
+    signAdmin = None
     
     for user in users:
         print(f'{user.name} (User ID: {user.id})')
-        if user.login == 'barduinor@gmail.com': 
-            barduino = user
+        if user.login == Config.SIGN_ADMIN: 
+            signAdmin = user
             break
 
     task = None
@@ -177,7 +178,7 @@ def booking_diver_trigger_task_insurance(booking_diver_id: int):
         )
 
     # TODO: If the task assignment already exists then do not duplicate the assignment
-    assignment = client.task(task_id = task.id).assign(barduino)
+    assignment = client.task(task_id = task.id).assign(signAdmin)
 
     booking_diver.insurance_task_id = assignment.id
     booking_diver.insurance_status = assignment.status
@@ -209,11 +210,11 @@ def booking_diver_trigger_task_waiver(booking_diver_id: int):
     due_date = datetime.combine(due_date, datetime.min.time())
     
     users = client.users(user_type='managed')
-    barduino = None
+    signAdmin = None
     for user in users:
         print(f'{user.name} (User ID: {user.id})')
-        if user.login == 'barduinor@gmail.com': 
-            barduino = user
+        if user.login == Config.SIGN_ADMIN: 
+            signAdmin = user
             break
 
     if task is None:
@@ -225,7 +226,7 @@ def booking_diver_trigger_task_waiver(booking_diver_id: int):
         )
 
     # TODO: If the task assignment already exists then do not duplicate the assignment
-    assignment = client.task(task_id = task.id).assign(barduino)
+    assignment = client.task(task_id = task.id).assign(signAdmin)
 
     booking_diver.waiver_task_id = assignment.id
     booking_diver.waiver_status = assignment.status

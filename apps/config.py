@@ -46,6 +46,8 @@ class Config(object):
     WH_KEY_A = os.getenv('WH_KEY_A','your webhook primary key')
     WH_KEY_B = os.getenv('WH_KEY_B','your webhook secondary key')
 
+    #Sign Admin
+    SIGN_ADMIN = os.getenv('SIGN_ADMIN')
     
 class ProductionConfig(Config):
     DEBUG = False
