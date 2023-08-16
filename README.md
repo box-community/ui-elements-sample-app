@@ -75,6 +75,7 @@ flask run
 ```
 
 > Point your browser to the server (e.g http://127.0.0.1:5000).
+> Initialize the application by navigating to the /bootstrap route (e.g. http://127.0.0.1:5000/bootstrap). 
 
 Sign up for an account, and then, login using those credntials. Visit the UI Element explorer or content picker to view/create the bookings folder.
 
@@ -88,7 +89,15 @@ If you login to the sign admin's Box account, you should see tasks appear in the
 
 ## Webhooks
 
-This repo is also used for [another part](https://medium.com/box-developer-blog/hooked-on-the-box-platform-9264a0efb0a) of the blog series on webhooks. This readme will not show how to set up that piece, due to the complexities around hosting, but running the code will create webhook endpoints you could expose publically from your local machine. They could then be used to run the task completion code shown in the subsequent blog.
+This repo is also used for [another part](https://medium.com/box-developer-blog/hooked-on-the-box-platform-9264a0efb0a) of the blog series on webhooks. 
+
+Back to your developer console and application, flip to the webhooks tab, and create a webhook for the bookings folder. 
+
+Select the following triggers:
+TASK_ASSIGNMENT.UPDATED
+SIGN_REQUEST.COMPLETED
+SIGN_REQUEST.DECLINED
+SIGN_REQUEST.EXPIRED
 
 ### Questions
 If you get stuck or have questions, make sure to ask on our [Box Developer Forum](https://support.box.com/hc/en-us/community/topics/360001932973-Platform-and-Developer-Forum)
