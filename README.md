@@ -94,10 +94,10 @@ This repo is also used for [another part](https://medium.com/box-developer-blog/
 Back to your developer console and application, flip to the webhooks tab, and create a webhook for the bookings folder. 
 
 Select the following triggers:
-TASK_ASSIGNMENT.UPDATED
-SIGN_REQUEST.COMPLETED
-SIGN_REQUEST.DECLINED
-SIGN_REQUEST.EXPIRED
+* TASK_ASSIGNMENT.UPDATED
+* SIGN_REQUEST.COMPLETED
+* SIGN_REQUEST.DECLINED
+* SIGN_REQUEST.EXPIRED
 
 ### Questions
 If you get stuck or have questions, make sure to ask on our [Box Developer Forum](https://support.box.com/hc/en-us/community/topics/360001932973-Platform-and-Developer-Forum)
