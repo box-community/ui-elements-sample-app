@@ -6,6 +6,7 @@ from apps.booking.forms import BookingForm
 from apps.booking.models import Booking, Booking_Diver, Diver
 from apps.booking.demo_folders import booking_diver_folder_create
 from apps import Config
+from apps.booking.utils import get_task_user
 
 
 def booking_create(dive_site_id: int, date: date):
@@ -109,13 +110,7 @@ def booking_diver_trigger_task_certification(booking_diver_id: int):
 
     due_date = datetime.combine(due_date, datetime.min.time())
 
-    users = client.users(user_type="managed")
-    sign_admin = None
-    for user in users:
-        # print(f"{user.name} (User ID: {user.id})")
-        if user.login == Config.TASK_USER_ID:
-            sign_admin = user
-            break
+    task_user = get_task_user(client)
 
     task = None
     if task is None:
@@ -124,7 +119,7 @@ def booking_diver_trigger_task_certification(booking_diver_id: int):
         )
 
     # TODO: If the task assignment already exists then do not duplicate the assignment
-    assignment = client.task(task_id=task.id).assign(sign_admin)
+    assignment = client.task(task_id=task.id).assign(task_user)
 
     booking_diver.certification_task_id = assignment.id
     booking_diver.certification_status = assignment.status
@@ -154,14 +149,7 @@ def booking_diver_trigger_task_insurance(booking_diver_id: int):
 
     due_date = datetime.combine(due_date, datetime.min.time())
 
-    users = client.users(user_type="managed")
-    sign_admin = None
-
-    for user in users:
-        # print(f"{user.name} (User ID: {user.id})")
-        if user.login == Config.TASK_USER_ID:
-            sign_admin = user
-            break
+    task_user = get_task_user(client)
 
     task = None
     if task is None:
@@ -170,7 +158,7 @@ def booking_diver_trigger_task_insurance(booking_diver_id: int):
         )
 
     # TODO: If the task assignment already exists then do not duplicate the assignment
-    assignment = client.task(task_id=task.id).assign(sign_admin)
+    assignment = client.task(task_id=task.id).assign(task_user)
 
     booking_diver.insurance_task_id = assignment.id
     booking_diver.insurance_status = assignment.status
@@ -201,13 +189,7 @@ def booking_diver_trigger_task_waiver(booking_diver_id: int):
 
     due_date = datetime.combine(due_date, datetime.min.time())
 
-    users = client.users(user_type="managed")
-    sign_admin = None
-    for user in users:
-        # print(f"{user.name} (User ID: {user.id})")
-        if user.login == Config.TASK_USER_ID:
-            sign_admin = user
-            break
+    task_user = get_task_user(client)
 
     if task is None:
         task = client.file(booking_diver.waiver_file_id).create_task(
@@ -215,7 +197,7 @@ def booking_diver_trigger_task_waiver(booking_diver_id: int):
         )
 
     # TODO: If the task assignment already exists then do not duplicate the assignment
-    assignment = client.task(task_id=task.id).assign(sign_admin)
+    assignment = client.task(task_id=task.id).assign(task_user)
 
     booking_diver.waiver_task_id = assignment.id
     booking_diver.waiver_status = assignment.status

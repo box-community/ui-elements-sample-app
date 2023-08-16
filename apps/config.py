@@ -4,23 +4,26 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class Config(object):
-
     basedir = os.path.abspath(os.path.dirname(__file__))
     jwt_path = os.path.normpath(os.path.join(basedir, os.pardir)) + "/.config.json"
     private_key_path = os.path.normpath(os.path.join(basedir, os.pardir)) + "/.private.key"
 
     # Set up the App SECRET_KEY
     # SECRET_KEY = config('SECRET_KEY'  , default='S#perS3crEt_007')
-    SECRET_KEY = os.getenv("SECRET_KEY", "S#perS3crEt_007")
-    FERNET_KEY = os.getenv("FERNET_KEY", "SFtrRFVSUgbyv6iSPgT4JWt9AfmNMKU8TtYcKxpSvI8=")
+    SECRET_KEY = os.getenv("SECRET_KEY")
+    FERNET_KEY = os.getenv("FERNET_KEY")
 
     # UI Elements Demo
     REDIRECT_URI = os.getenv("REDIRECT_URI", "")
     DEMO_FOLDER_NAME = os.getenv("DEMO_FOLDER_NAME", "Bookings")
-    SIGN_TEMPLATE_ID = os.getenv("SIGN_TEMPLATE_ID", "1003591818911")
+    SIGN_TEMPLATE_ID = os.getenv("SIGN_TEMPLATE_ID")
+    TASK_USER_LOGIN = os.getenv("TASK_USER_LOGIN")
 
     # This will create a file in <app> FOLDER
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "db.sqlite3")
@@ -46,9 +49,6 @@ class Config(object):
     # Webhook keys
     WH_KEY_A = os.getenv("WH_KEY_A", "your webhook primary key")
     WH_KEY_B = os.getenv("WH_KEY_B", "your webhook secondary key")
-
-    # Sign Admin
-    TASK_USER_ID = os.getenv("TASK_USER_ID")
 
 
 class ProductionConfig(Config):

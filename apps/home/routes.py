@@ -10,7 +10,7 @@ from apps.authentication.box_jwt import jwt_check_client, jwt_downscoped_access_
 from apps.home import blueprint
 from flask import request
 from flask_login import login_required
-from apps.home.demo_files import get_demo_folder_id, get_file_list
+from apps.home.demo_files import get_demo_files, get_demo_folder_id
 from apps.home.explorer import explorer
 from apps.home.previewer import previewer
 from apps.home.picker import picker
@@ -36,14 +36,12 @@ def event():
 @blueprint.route("/explorer")
 @login_required
 def page_explorer():
-
     return explorer(token=jwt_downscoped_access_token_get())
 
 
 @blueprint.route("/uploader")
 @login_required
 def page_uploader():
-
     demo_folder_id = get_demo_folder_id(jwt_check_client())
     return uploader(token=jwt_downscoped_access_token_get(), folder_id=demo_folder_id)
 
@@ -51,14 +49,12 @@ def page_uploader():
 @blueprint.route("/previewer")
 @login_required
 def page_previewer():
-
-    file_list = get_file_list(jwt_check_client())
+    file_list = get_demo_files(jwt_check_client())
     return previewer(token=jwt_downscoped_access_token_get(), file_list=file_list)
 
 
 @blueprint.route("/picker")
 @login_required
 def page_picker():
-
     demo_folder_id = get_demo_folder_id(jwt_check_client())
     return picker(token=jwt_downscoped_access_token_get(), folder_id=demo_folder_id)

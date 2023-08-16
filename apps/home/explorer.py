@@ -5,7 +5,6 @@ from apps.home.demo_files import get_demo_folder_id
 
 
 def explorer(token):
-
     token = token
     rootFolderId = get_demo_folder_id(jwt_check_client())
 

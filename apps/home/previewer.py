@@ -3,7 +3,6 @@ from flask_login import current_user
 
 
 def previewer(token: str, file_list: list):
-
     file_id = file_list[0]
 
     contentSidebarProps = {
@@ -22,7 +21,7 @@ def previewer(token: str, file_list: list):
     options = {
         "container": ".ui-element",
         "header": "light",
-        "logoUrl": "box",
+        # "logoUrl": "box",
         "collection": file_list,
         "hasHeader": True,
         "showAnnotations": False,
