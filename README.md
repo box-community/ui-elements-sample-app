@@ -100,4 +100,4 @@ Select the following triggers:
 * SIGN_REQUEST.EXPIRED
 
 ### Questions
-If you get stuck or have questions, make sure to ask on our [Box Developer Forum](https://support.box.com/hc/en-us/community/topics/360001932973-Platform-and-Developer-Forum)
+If you get stuck or have questions, make sure to ask on our [Community](https://forum.box.com/)
