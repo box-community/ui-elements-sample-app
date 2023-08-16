@@ -112,7 +112,7 @@ def booking_diver_trigger_task_certification(booking_diver_id: int):
     users = client.users(user_type="managed")
     signAdmin = None
     for user in users:
-        print(f"{user.name} (User ID: {user.id})")
+        # print(f"{user.name} (User ID: {user.id})")
         if user.login == Config.SIGN_ADMIN:
             signAdmin = user
             break
@@ -158,7 +158,7 @@ def booking_diver_trigger_task_insurance(booking_diver_id: int):
     signAdmin = None
 
     for user in users:
-        print(f"{user.name} (User ID: {user.id})")
+        # print(f"{user.name} (User ID: {user.id})")
         if user.login == Config.SIGN_ADMIN:
             signAdmin = user
             break
@@ -204,7 +204,7 @@ def booking_diver_trigger_task_waiver(booking_diver_id: int):
     users = client.users(user_type="managed")
     signAdmin = None
     for user in users:
-        print(f"{user.name} (User ID: {user.id})")
+        # print(f"{user.name} (User ID: {user.id})")
         if user.login == Config.SIGN_ADMIN:
             signAdmin = user
             break
