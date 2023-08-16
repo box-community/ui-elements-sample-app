@@ -61,7 +61,7 @@ python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key())"
 
 > Drag in the config.json file downloaded after creating your application in an earlier step. Rename it `.config.json`.
 
-> Update the SIGN_ADMIN field value in the env file with the Box login you wish to assign tasks to. You will want this to be an account that can login to the main Box Web App. 
+> Update the TASK_USER_ID field value in the env file with the Box login you wish to assign tasks to. You will want this to be an account that can login to the main Box Web App. 
 
 > Update the DEMO_FOLDER_NAME field value in the env file to be the name you wish the bookings to be created under. You can leave the default if you wish. This folder will get created the first time you create a booking or use a UI element.
 

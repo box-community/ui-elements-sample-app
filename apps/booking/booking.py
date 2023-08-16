@@ -1,10 +1,10 @@
+""" bookings"""
 from datetime import date, timedelta, datetime
 from apps import db
 from apps.authentication.box_jwt import jwt_check_client
 from apps.booking.forms import BookingForm
 from apps.booking.models import Booking, Booking_Diver, Diver
 from apps.booking.demo_folders import booking_diver_folder_create
-from boxsdk import BoxAPIException
 from apps import Config
 
 
@@ -110,11 +110,11 @@ def booking_diver_trigger_task_certification(booking_diver_id: int):
     due_date = datetime.combine(due_date, datetime.min.time())
 
     users = client.users(user_type="managed")
-    signAdmin = None
+    sign_admin = None
     for user in users:
         # print(f"{user.name} (User ID: {user.id})")
-        if user.login == Config.SIGN_ADMIN:
-            signAdmin = user
+        if user.login == Config.TASK_USER_ID:
+            sign_admin = user
             break
 
     task = None
@@ -124,7 +124,7 @@ def booking_diver_trigger_task_certification(booking_diver_id: int):
         )
 
     # TODO: If the task assignment already exists then do not duplicate the assignment
-    assignment = client.task(task_id=task.id).assign(signAdmin)
+    assignment = client.task(task_id=task.id).assign(sign_admin)
 
     booking_diver.certification_task_id = assignment.id
     booking_diver.certification_status = assignment.status
@@ -155,12 +155,12 @@ def booking_diver_trigger_task_insurance(booking_diver_id: int):
     due_date = datetime.combine(due_date, datetime.min.time())
 
     users = client.users(user_type="managed")
-    signAdmin = None
+    sign_admin = None
 
     for user in users:
         # print(f"{user.name} (User ID: {user.id})")
-        if user.login == Config.SIGN_ADMIN:
-            signAdmin = user
+        if user.login == Config.TASK_USER_ID:
+            sign_admin = user
             break
 
     task = None
@@ -170,7 +170,7 @@ def booking_diver_trigger_task_insurance(booking_diver_id: int):
         )
 
     # TODO: If the task assignment already exists then do not duplicate the assignment
-    assignment = client.task(task_id=task.id).assign(signAdmin)
+    assignment = client.task(task_id=task.id).assign(sign_admin)
 
     booking_diver.insurance_task_id = assignment.id
     booking_diver.insurance_status = assignment.status
@@ -202,11 +202,11 @@ def booking_diver_trigger_task_waiver(booking_diver_id: int):
     due_date = datetime.combine(due_date, datetime.min.time())
 
     users = client.users(user_type="managed")
-    signAdmin = None
+    sign_admin = None
     for user in users:
         # print(f"{user.name} (User ID: {user.id})")
-        if user.login == Config.SIGN_ADMIN:
-            signAdmin = user
+        if user.login == Config.TASK_USER_ID:
+            sign_admin = user
             break
 
     if task is None:
@@ -215,7 +215,7 @@ def booking_diver_trigger_task_waiver(booking_diver_id: int):
         )
 
     # TODO: If the task assignment already exists then do not duplicate the assignment
-    assignment = client.task(task_id=task.id).assign(signAdmin)
+    assignment = client.task(task_id=task.id).assign(sign_admin)
 
     booking_diver.waiver_task_id = assignment.id
     booking_diver.waiver_status = assignment.status

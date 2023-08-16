@@ -1,12 +1,9 @@
-from datetime import date
-import os
 from boxsdk import BoxAPIException, Client
-from boxsdk.object.folder import Folder
 from apps.config import Config
 from apps import db
 from apps.booking.models import Booking, Booking_Diver, Diver, Dive_Site
 from apps.authentication.models import Jwt
-from apps.authentication.box_jwt import jwt_check_client, jwt_client
+from apps.authentication.box_jwt import jwt_check_client
 
 
 def folder_non_root_exists(folder_id: str = "0") -> bool:

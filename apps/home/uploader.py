@@ -8,26 +8,26 @@ def uploader(token, folder_id=0, isPopup=False):
 
     if isPopup:
         modal = {
-            'buttonLabel': 'Open modal to upload your files',
-            'buttonClassName': 'btn-primary',
-            'modalClassName': 'upload-modal',
-            'overlayClassName': 'upload-overlay',
+            "buttonLabel": "Open modal to upload your files",
+            "buttonClassName": "btn-primary",
+            "modalClassName": "upload-modal",
+            "overlayClassName": "upload-overlay",
         }
     else:
         modal = None
 
     options = {
-        'container': '.ui-element',
-        'fileLimit': 100,
-
-        'modal': modal,
+        "container": ".ui-element",
+        "fileLimit": 100,
+        "modal": modal,
     }
 
-    return render_template('home/uploader.html',
-                           segment='uploader',
-                           avatar_url=current_user.avatar_url,
-                           isPopup=isPopup,
-                           token=token,
-                           folder_id=folder_id,
-                           options=options
-                           )
+    return render_template(
+        "home/uploader.html",
+        segment="uploader",
+        avatar_url=current_user.avatar_url,
+        isPopup=isPopup,
+        token=token,
+        folder_id=folder_id,
+        options=options,
+    )
